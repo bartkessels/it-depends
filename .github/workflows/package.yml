@@ -15,19 +15,16 @@ jobs:
           - os: ubuntu-22.04
             os_version: 22.04
             generator: Ninja
-            openssl_root: /usr
             artifact_name: ItDepends_x64-Linux.tar.gz
 
           - os: macos-11
             os_version: 11
             generator: Ninja
-            openssl_root: /usr/local/opt/openssl@3
             artifact_name: ItDepends_x64-MacOS.zip
 
           - os: windows-2022
             os_version: 2022
             generator: Ninja
-            openssl_root: D:\msys2\msys64\mingw64
             artifact_name: ItDepends_x64-MacOS.zip
 
     runs-on: ${{matrix.os}}
@@ -55,27 +52,20 @@ jobs:
         with:
           location: ${{env.msys}}
           msystem: mingw64
-          install: mingw-w64-x86_64-openssl mingw-w64-x86_64-ninja mingw-w64-x86_64-nlohmann-json
+          install: mingw-w64-x86_64-ninja mingw-w64-x86_64-nlohmann-json
 
       - name: Install MacOS dependencies
         if: contains(matrix.os, 'macos')
-        run: brew install openssl ninja cpprestsdk nlohmann-json
+        run: brew install ninja nlohmann-json
 
       - name: Install Linux dependencies
         if: contains(matrix.os, 'ubuntu')
-        run: sudo apt install -y libssl-dev cmake ninja-build libcpprest-dev nlohmann-json3-dev
+        run: sudo apt install -y cmake ninja-build nlohmann-json3-dev
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           arch: win64_mingw81
-
-      - name: Install boost
-        id: install-boost
-        uses: MarkusJx/install-boost@v2.4.0
-        with:
-          platform_version: "${{matrix.os_version}}"
-          boost_version: "${{env.BOOST_VERSION}}"
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -88,11 +78,6 @@ jobs:
             -Dpackaging=true\
             -Duse_installed_dependencies=true\
             -DCMAKE_CXX_FLAGS='-w'\
-            -DBoost_INCLUDE_DIR=${{steps.install-boost.outputs.BOOST_ROOT}}/include\
-            -DBoost_LIBRARY_DIRS=${{steps.install-boost.outputs.BOOST_ROOT}}/lib
-        env:
-          BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
-          OPENSSL_ROOT_DIR: ${{matrix.openssl_root}}
 
       - name: Build It Depends
         run: ninja itdepends
