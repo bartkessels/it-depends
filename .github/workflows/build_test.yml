@@ -55,7 +55,6 @@ jobs:
       - name: Create It Depends project
         run: |
           cmake . -G "${{matrix.generator}}" \
-          -Dpackaging=true \
           -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
