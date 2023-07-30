@@ -22,7 +22,7 @@ jobs:
 
           - os: windows-latest
             generator: Ninja
-            test_command: '& bin/id_tests.exe'
+            test_command: '.\bin\id_tests.exe'
 
     runs-on: ${{matrix.os}}
     steps:
