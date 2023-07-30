@@ -7,6 +7,7 @@
 #include "presentation/states/ErrorState.hpp"
 #include "presentation/states/LoadingState.hpp"
 #include "presentation/states/MainWindowState.hpp"
+#include "presentation/states/SuccessState.hpp"
 #include "presentation/windows/IMainWindow.hpp"
 #include "presentation/windows/IMainWindowViewModel.hpp"
 
