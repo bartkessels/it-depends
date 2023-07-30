@@ -23,7 +23,7 @@ void MainWindow::setViewModel(std::shared_ptr<IMainWindowViewModel> viewModel)
 
 void MainWindow::updateState(std::shared_ptr<states::MainWindowState> state)
 {
-	if (const auto& result = std::dynamic_pointer_cast<states::SuccesState>(state))
+	if (const auto& result = std::dynamic_pointer_cast<states::SuccessState>(state))
 	{
 		// Display dependencies
 	}
