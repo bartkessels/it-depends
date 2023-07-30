@@ -1,6 +1,8 @@
 # It Depends
 
 Getting grip on your dependencies.
+<br>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/mit)
 <br>
 <!-- Build status -->
