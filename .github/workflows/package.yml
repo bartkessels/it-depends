@@ -1,0 +1,122 @@
+name: Package It Depends for all platforms
+on:
+  create:
+    tags:
+      - 'v*'
+
+env:
+  BOOST_VERSION: 1.79.0
+
+jobs:
+  package:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            os_version: 22.04
+            generator: Ninja
+            openssl_root: /usr
+            artifact_name: ItDepends_x64-Linux.tar.gz
+
+          - os: macos-11
+            os_version: 11
+            generator: Ninja
+            openssl_root: /usr/local/opt/openssl@3
+            artifact_name: ItDepends_x64-MacOS.zip
+
+          - os: windows-2022
+            os_version: 2022
+            generator: Ninja
+            openssl_root: D:\msys2\msys64\mingw64
+            artifact_name: ItDepends_x64-MacOS.zip
+
+    runs-on: ${{matrix.os}}
+    continue-on-error: true
+    steps:
+      - name: Create a new release
+        uses: actions/create-release@v1
+        id: create_release
+        # Use specific OS to create the release,
+        # otherwise the release will be created for
+        # every platform in which case the succeeding
+        # platforms will fail to continue.
+        if: contains(matrix.os, 'windows')
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Install Windows dependencies
+        if: contains(matrix.os, 'windows')
+        uses: msys2/setup-msys2@v2
+        with:
+          location: ${{env.msys}}
+          msystem: mingw64
+          install: mingw-w64-x86_64-openssl mingw-w64-x86_64-ninja mingw-w64-x86_64-nlohmann-json
+
+      - name: Install MacOS dependencies
+        if: contains(matrix.os, 'macos')
+        run: brew install openssl ninja cpprestsdk nlohmann-json
+
+      - name: Install Linux dependencies
+        if: contains(matrix.os, 'ubuntu')
+        run: sudo apt install -y libssl-dev cmake ninja-build libcpprest-dev nlohmann-json3-dev
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          arch: win64_mingw81
+
+      - name: Install boost
+        id: install-boost
+        uses: MarkusJx/install-boost@v2.4.0
+        with:
+          platform_version: "${{matrix.os_version}}"
+          boost_version: "${{env.BOOST_VERSION}}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Create It Depends project
+        run: |
+          cmake . -G "${{matrix.generator}}"\
+            -Dpackaging=true\
+            -Duse_installed_dependencies=true\
+            -DCMAKE_CXX_FLAGS='-w'\
+            -DBoost_INCLUDE_DIR=${{steps.install-boost.outputs.BOOST_ROOT}}/include\
+            -DBoost_LIBRARY_DIRS=${{steps.install-boost.outputs.BOOST_ROOT}}/lib
+        env:
+          BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+          OPENSSL_ROOT_DIR: ${{matrix.openssl_root}}
+
+      - name: Build It Depends
+        run: ninja itdepends
+
+      - name: Add Qt dependencies to Windows executable and zip the executable
+        if: contains(matrix.os, 'windows')
+        run: |
+          $windeployqt = '${{env.Qt5_Dir}}\bin\windeployqt.exe'
+          & $windeployqt ./bin/itdepends.exe
+          7z a -tzip ${{matrix.artifact_name}} ./bin/itdepends.exe
+
+      - name: Add Qt dependencies to MacOS bundle and zip the bundle
+        if: contains(matrix.os, 'macos')
+        run: |
+          macdeployqt ./bin/itdepends.app -timestamp -libpath=./_deps
+          cp ./packaging/macos/icons/itdepends.icns ./bin/itdepends.app/Contents/Resources
+          zip -rT ${{matrix.artifact_name}} ./bin/itdepends.app >> /dev/null
+
+      - name: Upload zip-file as build artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: https://github.com/bartkessels/it-depends/releases/latest
+          asset_path: ${{matrix.artifact_name}}
+          asset_name: ${{matrix.artifact_name}}
+          asset_content_type: application/zip
