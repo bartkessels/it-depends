@@ -48,6 +48,8 @@ If you're missing a specific standard, feel free to open an issue and request a 
 Because I'm developing _It Depends_ in my spare time, not everything I'd like to see can be implemented immediately. Therefore, the following features are going to be implemented in the upcoming future.
 
 - Scanning dependency version against a database with known vulnerabilities. For example a custom hosted [Dependency Track](https://dependencytrack.org) server.
+- Searching for updates for a package
+  - If you have package _X_ with version _1.2_ but version _1.5_ is available, display a tag for that package that an update is available.
 
 # 2. External dependencies
 
