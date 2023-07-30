@@ -18,15 +18,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-latest
             generator: Ninja
             test_command: ./bin/id_tests
 
-          - os: macos-11
+          - os: macos-latest
             generator: Ninja
             test_command: ./bin/id_tests
 
-          - os: windows-2022
+          - os: windows-latest
             generator: Ninja
             test_command: '& bin/id_tests.exe'
 
