@@ -43,7 +43,7 @@ jobs:
         run: sudo apt install -y cmake ninja-build
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           arch: win64_mingw81
 
