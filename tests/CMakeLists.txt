@@ -4,6 +4,8 @@ set(SOURCEFILES)
 
 set(TESTFILES
     main.cpp
+
+    temp_tst.cpp
 )
 
 add_executable(id_tests ${SOURCEFILES} ${TESTFILES})
