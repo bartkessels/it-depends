@@ -3,15 +3,9 @@ on:
   push:
     branches:
       - main
-      - development
   pull_request:
     branches:
       - main
-      - development
-
-env:
-  BOOST_VERSION: 1.71.0
-  BOOST_PATH: ${{github.workspace}}/boost/boost
 
 jobs:
   build:
