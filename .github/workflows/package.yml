@@ -58,8 +58,6 @@ jobs:
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
-        with:
-          arch: win64_mingw81
 
       - name: Checkout repository
         uses: actions/checkout@v2
