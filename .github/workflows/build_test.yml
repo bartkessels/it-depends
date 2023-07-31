@@ -57,7 +57,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create It Depends project
-        run: cmake . -G "${{matrix.generator}}" -DCMAKE_CXX_FLAGS='-w'
+        run: cmake . -G "${{matrix.generator}}" -Duse_qt6=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends

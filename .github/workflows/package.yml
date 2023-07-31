@@ -67,7 +67,7 @@ jobs:
 
       - name: Create It Depends project
         run: |
-          cmake . -G "${{matrix.generator}}" -Dpackaging=true -Duse_installed_dependencies=true -DCMAKE_CXX_FLAGS='-w'
+          cmake . -G "${{matrix.generator}}" -Dpackaging=true -Duse_installed_dependencies=true -Duse_qt6=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
