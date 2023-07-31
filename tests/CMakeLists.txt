@@ -1,11 +1,19 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
-set(SOURCEFILES)
+set(SOURCEFILES
+    ../src/data/factories/FileReaderFactory.cpp
+    ../src/data/factories/MapperFactory.cpp
+    ../src/data/implementation/FileReader.cpp
+    ../src/data/mappers/CycloneDXMapper.cpp
+)
 
 set(TESTFILES
     main.cpp
 
-    temp_tst.cpp
+    data/factories/FileReaderFactory_tests.cpp
+    data/factories/MapperFactory_tests.cpp
+    data/implementation/FileReader_tests.cpp
+    data/mappers/CycloneDXMapper_tests.cpp
 )
 
 add_executable(id_tests ${SOURCEFILES} ${TESTFILES})

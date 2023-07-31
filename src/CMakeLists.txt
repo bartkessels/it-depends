@@ -18,6 +18,11 @@ endif()
 set(SOURCEFILES
         main.cpp
 
+        data/factories/FileReaderFactory.cpp
+        data/factories/MapperFactory.cpp
+        data/implementation/FileReader.cpp
+        data/mappers/CycloneDXMapper.cpp
+
         presentation/windows/MainWindow.cpp
         presentation/windows/MainWindowViewModel.cpp
 )

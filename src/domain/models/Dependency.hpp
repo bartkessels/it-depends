@@ -19,6 +19,7 @@ namespace id::domain::models
 		public:
 			~Dependency() = default;
 
+			std::string id;
 			std::string name;
 			std::string version;
 			std::list<std::shared_ptr<Url>> urls;
