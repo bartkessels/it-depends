@@ -22,10 +22,10 @@ jobs:
             test_command: ./bin/id_tests
             qt_arch: clang_64
 
-          - os: windows-latest
+          - os: windows-2019
             generator: Ninja
             test_command: '.\bin\id_tests.exe'
-            qt_arch: win64_msvc2022_64
+            qt_arch: win64_msvc2019_64
 
     runs-on: ${{matrix.os}}
     steps:
