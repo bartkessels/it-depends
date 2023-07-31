@@ -48,8 +48,8 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          - version: '6.6.0'
-          - arch: '${{matrix.qt_arch}}'
+          version: '6.6.0'
+          arch: '${{matrix.qt_arch}}'
 
       - name: Checkout repository
         uses: actions/checkout@v2
