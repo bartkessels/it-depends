@@ -72,18 +72,14 @@ jobs:
       - name: Build It Depends
         run: ninja ItDepends
 
-      - name: Add Qt dependencies to Windows executable and zip the executable
+      - name: Zip the Windows executable
         if: contains(matrix.os, 'windows')
         run: |
-          $windeployqt = '${{env.Qt5_Dir}}\bin\windeployqt.exe'
-          & $windeployqt ./bin/ItDepends.exe
           7z a -tzip ${{matrix.artifact_name}} ./bin/ItDepends.exe
 
-      - name: Add Qt dependencies to MacOS bundle and zip the bundle
+      - name: Zip the MacOS bundle
         if: contains(matrix.os, 'macos')
         run: |
-          macdeployqt ./bin/ItDepends.app -timestamp -libpath=./_deps
-          cp ./packaging/macos/icons/itdepends.icns ./bin/ItDepends.app/Contents/Resources
           zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
 
       - name: Upload zip-file as build artifact
