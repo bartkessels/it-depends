@@ -89,7 +89,7 @@ These commands can be set through the `-D<variable_name>=<variable_value>` flag 
 
 ```bash
 $ cmake . -G Ninja
-$ ninja itdepends
+$ ninja ItDepends
 ```
 
 This will create the `bin/ItDepends.app` bundle. This can be executing by double-clicking it in Finder.
@@ -100,19 +100,19 @@ Please not that this App Bunlde does __NOT__ include the Qt-framework or the oth
 
 ```bash
 $ cmake . -G Ninja
-$ ninja itdepends
+$ ninja ItDepends
 ```
 
-This will create the `bin/itdepends` binary file. This can be executed by either running `./bin/itdepends` from the command line, or double-clicking the file through your file browser.
+This will create the `bin/ItDepends` binary file. This can be executed by either running `./bin/itdepends` from the command line, or double-clicking the file through your file browser.
 
 ## 3.3 Windows
 
 ```powershell
 C:\ItDepends> cmake -G `"Visual Studio 17 2022`"
-C:\ItDepends> msbuild itdepends.sln -property:Configuration=Release
+C:\ItDepends> msbuild ItDepends.sln -property:Configuration=Release
 ```
 
-This will create the `bin/itdepends.exe` executable. It can be executed by double-clicking the file in the File Explorer.
+This will create the `bin/ItDepends.exe` executable. It can be executed by double-clicking the file in the File Explorer.
 
 Please not that this executable does __NOT__ include the Qt-framework or the other dependencies. So when moving this executable to another location, or computer, the application might not start up.
 
@@ -127,13 +127,10 @@ Build the MacOS App Bundle with all dependencies and required frameworks.
 $ cmake . -G Ninja -Dpackaging=true
 
 # Generate the MacOS bundle
-$ ninja itdepends
-
-# Copy the icon of It Depends into the App Bundle (not sure if this is still required)
-$ cp ./packaging/macos/icons/itdepends.icns ./bin/ItDepends.app/Contents/Resources
+$ ninja ItDepends
 ```
 
-This will create the distributable App Bundle `bin/itdepends.app`.
+This will create the distributable App Bundle `bin/ItDepends.app`.
 
 ## 4.2 Linux
 
@@ -159,10 +156,10 @@ Build the Windows executable with all dependencies and required frameworks.
 C:\ItDepends> cmake . -G `"Visual Studio 17 2022`" -Dpackaging=true
 
 # Generate the executable
-C:\ItDepends> msbuild itdepends.sln -property:Configuration=Release
+C:\ItDepends> msbuild ItDepends.sln -property:Configuration=Release
 
 # Add the Qt dependencies to the executable
-C:\ItDepends> windeployqt bin/itdepends.exe
+C:\ItDepends> windeployqt bin/ItDepends.exe
 ```
 
 # 5. Automated testing

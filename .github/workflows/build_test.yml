@@ -15,14 +15,17 @@ jobs:
           - os: ubuntu-latest
             generator: Ninja
             test_command: ./bin/id_tests
+            qt_arch: clang_64
 
           - os: macos-latest
             generator: Ninja
             test_command: ./bin/id_tests
+            qt_arch: win64_msvc2019_64
 
           - os: windows-latest
             generator: Ninja
             test_command: '.\bin\id_tests.exe'
+            qt_arch: gcc_64
 
     runs-on: ${{matrix.os}}
     steps:
@@ -44,6 +47,9 @@ jobs:
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
+        with:
+          - version: '6.6.0'
+          - arch: '${{matrix.qt_arch}}'
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -54,7 +60,7 @@ jobs:
         run: cmake . -G "${{matrix.generator}}" -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
-        run: ninja itdepends
+        run: ninja ItDepends
 
       - name: Build It Depends tests
         run: ninja id_tests

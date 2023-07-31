@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.26)
 
-project(itdepends
+project(ItDepends
         VERSION 1.0.0
         DESCRIPTION "Get insights in your software dependencies based on a generated SBOM"
-        HOMEPAGE_URL "https://github.com/bartkessels/itidepends"
+        HOMEPAGE_URL "https://github.com/bartkessels/it-depends"
 )
 
 # Optional arguments for compiling It Depends

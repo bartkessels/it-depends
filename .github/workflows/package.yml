@@ -69,21 +69,21 @@ jobs:
           cmake . -G "${{matrix.generator}}" -Dpackaging=true -Duse_installed_dependencies=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
-        run: ninja itdepends
+        run: ninja ItDepends
 
       - name: Add Qt dependencies to Windows executable and zip the executable
         if: contains(matrix.os, 'windows')
         run: |
           $windeployqt = '${{env.Qt5_Dir}}\bin\windeployqt.exe'
-          & $windeployqt ./bin/itdepends.exe
-          7z a -tzip ${{matrix.artifact_name}} ./bin/itdepends.exe
+          & $windeployqt ./bin/ItDepends.exe
+          7z a -tzip ${{matrix.artifact_name}} ./bin/ItDepends.exe
 
       - name: Add Qt dependencies to MacOS bundle and zip the bundle
         if: contains(matrix.os, 'macos')
         run: |
-          macdeployqt ./bin/itdepends.app -timestamp -libpath=./_deps
-          cp ./packaging/macos/icons/itdepends.icns ./bin/itdepends.app/Contents/Resources
-          zip -rT ${{matrix.artifact_name}} ./bin/itdepends.app >> /dev/null
+          macdeployqt ./bin/ItDepends.app -timestamp -libpath=./_deps
+          cp ./packaging/macos/icons/itdepends.icns ./bin/ItDepends.app/Contents/Resources
+          zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
 
       - name: Upload zip-file as build artifact
         uses: actions/upload-release-asset@v1

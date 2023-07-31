@@ -23,4 +23,5 @@ CMakeScripts/
 MakeFile
 *Cache*
 itdepends
+ItDepends
 .qt/

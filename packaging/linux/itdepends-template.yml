@@ -1,0 +1,33 @@
+app-id: net.bartkessels.itdepends
+runtime: org.kde.Platform/freedesktop
+runtime-version: '6.2'
+default-branch: main
+sdk: org.kde.Sdk
+command: {binary-name}
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --filesystem=host
+  - --device=dri
+modules:
+  - name: Nlohman-Json
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_CXX_FLAGS='-w'
+      - -DJSON_BuildTests=off
+      - -DJSON_Diagnostics=off
+    sources:
+      - type: git
+        url: https://github.com/nlohmann/json.git
+
+  - name: ItDepends
+    buildsystem: simple
+    builddir: true
+    build-commands:
+      - cmake . -G Ninja -Dpackaging=true -Duse_installed_dependencies=true -Duse_qt6=true -DCMAKE_CXX_FLAGS=-w
+      - ninja ItDepends
+    sources:
+      - type: git
+        url: https://github.com/bartkessels/it-depends.git
+        tag: {binary-version}
