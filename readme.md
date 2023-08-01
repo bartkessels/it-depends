@@ -75,7 +75,7 @@ These commands can be set through the `-D<variable_name>=<variable_value>` flag 
 
 - `use_qt6`
   - __Values__: [`true`, `false`]
-  - __Default value__: `false`
+  - __Default value__: `true`
   - __Description__: Use Qt6 instead of Qt5.
 - `use_installed_dependencies`
   - __Values__: [`true`, `false`]
