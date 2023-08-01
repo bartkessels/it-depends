@@ -50,7 +50,6 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.6.0'
-          aqtversion: '==3.1.*'
           arch: ${{matrix.qt_arch}}
 
       - name: Checkout repository
