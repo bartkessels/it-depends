@@ -15,17 +15,14 @@ jobs:
           - os: ubuntu-latest
             generator: Ninja
             test_command: ./bin/id_tests
-            qt_arch: gcc_64
 
           - os: macos-latest
             generator: Ninja
             test_command: ./bin/id_tests
-            qt_arch: clang_64
 
-          - os: windows-2019
+          - os: windows-latest
             generator: Ninja
             test_command: '.\bin\id_tests.exe'
-            qt_arch: win64_msvc2019_64
 
     runs-on: ${{matrix.os}}
     steps:
@@ -49,7 +46,6 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.6.0'
-          arch: '${{matrix.qt_arch}}'
 
       - name: Checkout repository
         uses: actions/checkout@v2
