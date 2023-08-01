@@ -22,23 +22,20 @@ jobs:
 
           - os: windows-latest
             generator: Ninja
-            artifact_name: ItDepends_x64-MacOS.zip
+            artifact_name: ItDepends_x64-Windows.zip
             qt_arch: win64_mingw
 
     runs-on: ${{matrix.os}}
     continue-on-error: true
     steps:
-      - name: Create a new release
-        uses: actions/create-release@v1
-        id: create_release
+      - name: Create a release on Github
         if: contains(matrix.os, 'windows')
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          draft: false
-          prerelease: false
-          release_name: ${{ github.ref }}
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ github.ref }}
+          prerelease: true
+          title: ${{ github.ref }}
 
       - name: Install Windows dependencies
         if: contains(matrix.os, 'windows')
@@ -73,6 +70,11 @@ jobs:
 
       - name: Build It Depends
         run: ninja ItDepends
+
+      - name: Zip the flatpak bundle
+        if: contains(matrix.os, 'ubuntu')
+        run: |
+          zip -rT ${{matrix.artifact_name}} ./bin/itdepends.flatpak
 
       - name: Zip the Windows executable
         if: contains(matrix.os, 'windows')
