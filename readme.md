@@ -6,6 +6,7 @@ Getting grip on your dependencies.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/mit)
 <br>
 <!-- Build status -->
+[![Build & Test It Depends on all platforms](https://github.com/bartkessels/it-depends/actions/workflows/build_test.yml/badge.svg)](https://github.com/bartkessels/it-depends/actions/workflows/build_test.yml)
 
 ---
 
