@@ -26,8 +26,6 @@ endif()
 if (packaging)
     set(CMAKE_BUILD_TYPE Release)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-    add_subdirectory(packaging)
     include(CPack)
 else()
     add_subdirectory(tests)
