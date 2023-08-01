@@ -22,7 +22,7 @@ jobs:
           - os: windows-latest
             generator: Ninja
             artifact_name: ItDepends_x64-MacOS.zip
-            qt_arch: win64_msvc2019_64
+            qt_arch: win64_mingw
 
     runs-on: ${{matrix.os}}
     continue-on-error: true
