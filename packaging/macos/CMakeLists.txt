@@ -11,6 +11,7 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIF
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING ${CMAKE_PROJECT_DESCRIPTION})
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING ${CMAKE_PROJECT_VERSION})
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING ${CMAKE_PROJECT_VERSION_MAJOR})
+set(BUNDLE_NAME ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_PROJECT_NAME}.app)
 
 if (use_qt6)
     get_target_property(qmake_executable Qt::qmake IMPORTED_LOCATION)
@@ -23,10 +24,10 @@ find_program(MACDEPLOYQT_BIN macdeployqt HINT "${_qt_bin_dir}")
 
 # Link Qt dependencies to ItDepends.app bundle
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-        COMMAND ${MACDEPLOYQT_BIN} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_PROJECT_NAME}} -always-overwrite
+        COMMAND ${MACDEPLOYQT_BIN} ${BUNDLE_NAME} -always-overwrite
 )
 
 # Copy icon into ItDepends.app bundle
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-        COMMAND cp ${CMAKE_BINARY_DIR}/packaging/macos/icons/itdepends.icns ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_PROJECT_NAME}/Contents/Resources
+        COMMAND cp ${CMAKE_BINARY_DIR}/packaging/macos/icons/itdepends.icns ${BUNDLE_NAME}/Contents/Resources
 )

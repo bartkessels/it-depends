@@ -9,7 +9,7 @@ project(ItDepends
 # Optional arguments for compiling It Depends
 OPTION(use_installed_dependencies "Use the installed versions of the dependencies for It Depends instead of fetching them using FetchContent" false)
 OPTION(packaging "Package It Depends for all supported platforms" false)
-OPTION(use_qt6 "Use Qt6 instead of Qt5" false)
+OPTION(use_qt6 "Use Qt6 instead of Qt5" true)
 
 # General project setup
 set(CMAKE_CXX_STANDARD 23)
@@ -26,8 +26,6 @@ endif()
 if (packaging)
     set(CMAKE_BUILD_TYPE Release)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-    add_subdirectory(packaging)
     include(CPack)
 else()
     add_subdirectory(tests)
