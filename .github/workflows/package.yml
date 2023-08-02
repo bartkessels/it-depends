@@ -32,13 +32,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create Github release
-        uses: cgetc/create-github-release-simply@v0.1.0
+      - name: Create Release
+        uses: actions/create-release@latest
+        if: contains(matrix.os, 'ubuntu')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          token: ${{ github.TOKEN }}
-          repository: bartkessels/it-depends
-          name: ${{ github.ref }}
-          body-path: readme.md 
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
 
       - name: Install Windows dependencies
         if: contains(matrix.os, 'windows')
