@@ -28,7 +28,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Create/Update Github Release
-        uses: mini-bomba/create-github-release@latest
+        uses: mini-bomba/create-github-release@v1.1.3
         if: contains(matrix.os, 'windows')
         with:
           token: ${{ github.TOKEN }}
