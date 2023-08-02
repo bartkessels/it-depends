@@ -36,6 +36,7 @@ jobs:
           prerelease: false
           draft: false
           name: ${{ github.ref }}
+          body: ${{ github.ref }}
           clear_attachments: false
 
       - name: Install Windows dependencies
