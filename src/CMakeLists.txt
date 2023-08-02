@@ -45,3 +45,7 @@ if (use_qt6)
 else()
     target_link_libraries(${CMAKE_PROJECT_NAME} Qt5::Widgets)
 endif()
+
+if (packaging)
+    include(${CMAKE_SOURCE_DIR}/packaging/CMakeLists.txt)
+endif()

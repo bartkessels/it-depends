@@ -6,6 +6,10 @@ Getting grip on your dependencies.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/mit)
 <br>
 <!-- Build status -->
+[![Build & Test It Depends on all platforms](https://github.com/bartkessels/it-depends/actions/workflows/build_test.yml/badge.svg)](https://github.com/bartkessels/it-depends/actions/workflows/build_test.yml)
+[![Package It Depends for all platforms](https://github.com/bartkessels/it-depends/actions/workflows/package.yml/badge.svg)](https://github.com/bartkessels/it-depends/actions/workflows/package.yml)
+[![Vulnerability scan](https://github.com/bartkessels/it-depends/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/bartkessels/it-depends/actions/workflows/codeql-analysis.yml)
+[![codecov](https://codecov.io/gh/bartkessels/it-depends/branch/main/graph/badge.svg?token=5BZQHUZNA6)](https://codecov.io/gh/bartkessels/it-depends)
 
 ---
 
@@ -74,7 +78,7 @@ These commands can be set through the `-D<variable_name>=<variable_value>` flag 
 
 - `use_qt6`
   - __Values__: [`true`, `false`]
-  - __Default value__: `false`
+  - __Default value__: `true`
   - __Description__: Use Qt6 instead of Qt5.
 - `use_installed_dependencies`
   - __Values__: [`true`, `false`]

@@ -2,10 +2,12 @@ name: Build & Test It Depends on all platforms
 on:
   push:
     branches:
-      - main
+      - "main"
+      - "*"
   pull_request:
     branches:
-      - main
+      - "main"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,10 +24,10 @@ jobs:
             test_command: ./bin/id_tests
             qt_arch: clang_64
 
-          - os: windows-2019
+          - os: windows-latest
             generator: Ninja
             test_command: '.\bin\id_tests.exe'
-            qt_arch: win64_msvc2019_64
+            qt_arch: win64_mingw
 
     runs-on: ${{matrix.os}}
     steps:
@@ -49,15 +51,15 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.6.0'
-          arch: '${{matrix.qt_arch}}'
+          arch: ${{matrix.qt_arch}}
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Create It Depends project
-        run: cmake . -G "${{matrix.generator}}" -Duse_qt6=true -DCMAKE_CXX_FLAGS='-w'
+        run: cmake . -G "${{matrix.generator}}" -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
@@ -67,3 +69,9 @@ jobs:
 
       - name: Execute It Depends tests
         run: ${{matrix.test_command}}
+
+      - name: Upload coverage reports to Codecov
+        if: contains(matrix.os, 'ubuntu')
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -1,8 +1,8 @@
 name: Package It Depends for all platforms
 on:
-  create:
+  push:
     tags:
-      - 'v*'
+      - v*
 
 jobs:
   package:
@@ -21,23 +21,16 @@ jobs:
 
           - os: windows-latest
             generator: Ninja
-            artifact_name: ItDepends_x64-MacOS.zip
-            qt_arch: win64_msvc2019_64
+            artifact_name: ItDepends_x64-Windows.zip
+            qt_arch: win64_mingw
 
     runs-on: ${{matrix.os}}
     continue-on-error: true
     steps:
-      - name: Create a new release
-        uses: actions/create-release@v1
-        id: create_release
-        if: contains(matrix.os, 'windows')
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          draft: false
-          prerelease: false
-          release_name: ${{ github.ref }}
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          fetch-depth: 0
 
       - name: Install Windows dependencies
         if: contains(matrix.os, 'windows')
@@ -45,15 +38,15 @@ jobs:
         with:
           location: ${{env.msys}}
           msystem: mingw64
-          install: mingw-w64-x86_64-ninja mingw-w64-x86_64-nlohmann-json
+          install: mingw-w64-x86_64-ninja
 
       - name: Install MacOS dependencies
         if: contains(matrix.os, 'macos')
-        run: brew install ninja nlohmann-json
+        run: brew install ninja
 
       - name: Install Linux dependencies
         if: contains(matrix.os, 'ubuntu')
-        run: sudo apt install -y cmake ninja-build nlohmann-json3-dev
+        run: sudo apt install -y cmake ninja-build
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -61,14 +54,9 @@ jobs:
           version: '6.6.0'
           arch: '${{matrix.qt_arch}}'
 
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: Create It Depends project
         run: |
-          cmake . -G "${{matrix.generator}}" -Dpackaging=true -Duse_installed_dependencies=true -Duse_qt6=true -DCMAKE_CXX_FLAGS='-w'
+          cmake . -G "${{matrix.generator}}" -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
@@ -83,12 +71,13 @@ jobs:
         run: |
           zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
 
-      - name: Upload zip-file as build artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Create or update Release with artifacts
+        uses: ncipollo/release-action@v1.12.0
+        if: ${{ !contains(matrix.os, 'ubuntu') }}
         with:
-          upload_url: https://github.com/bartkessels/it-depends/releases/latest
-          asset_path: ${{matrix.artifact_name}}
-          asset_name: ${{matrix.artifact_name}}
-          asset_content_type: application/zip
+          allowUpdates: true
+          generateReleaseNotes: true
+          makeLatest: true
+          name: ${{ github.ref }}
+          artifact: ${{ matrix.artifact_name }}
+          artifactContentType: application/zip
