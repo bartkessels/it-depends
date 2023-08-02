@@ -1,8 +1,8 @@
 name: Package It Depends for all platforms
 on:
-  create:
+  push:
     tags:
-      - 'v*'
+      - v*
 
 jobs:
   package:
