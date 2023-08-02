@@ -50,15 +50,15 @@ jobs:
         with:
           location: ${{env.msys}}
           msystem: mingw64
-          install: mingw-w64-x86_64-ninja mingw-w64-x86_64-nlohmann-json
+          install: mingw-w64-x86_64-ninja
 
       - name: Install MacOS dependencies
         if: contains(matrix.os, 'macos')
-        run: brew install ninja nlohmann-json
+        run: brew install ninja
 
       - name: Install Linux dependencies
         if: contains(matrix.os, 'ubuntu')
-        run: sudo apt install -y cmake ninja-build nlohmann-json3-dev
+        run: sudo apt install -y cmake ninja-build
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -68,7 +68,7 @@ jobs:
 
       - name: Create It Depends project
         run: |
-          cmake . -G "${{matrix.generator}}" -Dpackaging=true -Duse_installed_dependencies=true -DCMAKE_CXX_FLAGS='-w'
+          cmake . -G "${{matrix.generator}}" -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
@@ -83,13 +83,9 @@ jobs:
         run: |
           zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
 
-      - name: Zip the flatpak bundle
-        if: contains(matrix.os, 'ubuntu')
-        run: |
-          zip -rT ${{matrix.artifact_name}} ./bin/net.bartkessels.itdepends.yml
-
       - name: Upload zip-file as build artifact
         uses: actions/upload-release-asset@v1
+        if: !contains(matrix.os, 'ubuntu')
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
