@@ -32,18 +32,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create Release
-        uses: actions/create-release@latest
-        if: contains(matrix.os, 'ubuntu')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
       - name: Install Windows dependencies
         if: contains(matrix.os, 'windows')
         uses: msys2/setup-msys2@v2
@@ -83,13 +71,12 @@ jobs:
         run: |
           zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
 
-      - name: Upload zip-file as build artifact
-        uses: actions/upload-release-asset@v1
-        if: ${{ !contains(matrix.os, 'ubuntu') }}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Create or update Release with artifacts
+        uses: ncipollo/release-action@v1.12.0
         with:
-          upload_url: https://github.com/bartkessels/it-depends/releases/latest
-          asset_path: ${{matrix.artifact_name}}
-          asset_name: ${{matrix.artifact_name}}
-          asset_content_type: application/zip
+          allowUpdates: true
+          generateReleaseNotes: true
+          makeLatest: true
+          name: ${{ github.ref }}
+          artifact: ${{ matrix.artifact_name }}
+          artifactContentType: application/zip
