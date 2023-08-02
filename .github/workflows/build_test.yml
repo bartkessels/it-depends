@@ -69,3 +69,9 @@ jobs:
 
       - name: Execute It Depends tests
         run: ${{matrix.test_command}}
+
+      - name: Upload coverage reports to Codecov
+        if: contains(matrix.os, 'ubuntu')
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
