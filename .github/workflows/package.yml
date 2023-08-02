@@ -32,11 +32,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Github Release
-        uses: elgohr/Github-Release-Action@v4
-        if: contains(matrix.os, 'ubuntu')
+      - name: Create Github release
+        uses: cgetc/create-github-release-simply@v0.1.0
         with:
-          title: ${{ github.ref }}
+          token: ${{ github.TOKEN }}
+          repository: bartkessels/it-depends
+          name: ${{ github.ref }}
+          body-path: readme.md 
 
       - name: Install Windows dependencies
         if: contains(matrix.os, 'windows')
