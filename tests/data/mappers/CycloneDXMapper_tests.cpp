@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "data/contracts/IFileReader.hpp"
+#include "data/implementation/FileReader.hpp"
 #include "data/mappers/CycloneDXMapper.hpp"
 #include "domain/models/Dependency.hpp"
 #include "domain/models/Url.hpp"
@@ -12,15 +12,9 @@
 using namespace id::data::mappers;
 using namespace id::domain;
 
-class FileReaderMock: public IFileReader
-{
-	public:
-	MAKE_MOCK1(readFile, std::string(const std::string&), override);
-};
-
 TEST_CASE("CycloneDXMapper.map")
 {
-	const auto& fileReader = std::make_shared<FileReaderMock>();
+	const auto& fileReader = std::make_shared<implementation::FileReader>();
 	const auto& sut = std::make_shared<CycloneDXMapper>(fileReader);
 
 	SECTION("maps urls")
@@ -28,6 +22,7 @@ TEST_CASE("CycloneDXMapper.map")
 		// Arrange
 
 		// Act
+		const auto& result = sut->map("./cyclonedx_sbom.json");
 
 		// Assert
 	}

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/cyclonedx_sbom.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 set(SOURCEFILES
     ../src/data/factories/FileReaderFactory.cpp
     ../src/data/factories/MapperFactory.cpp
