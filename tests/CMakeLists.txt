@@ -16,8 +16,6 @@ set(SOURCEFILES
 )
 
 set(TESTFILES
-    main.cpp
-
     data/factories/FileReaderFactory_tests.cpp
     data/factories/MapperFactory_tests.cpp
     data/implementation/FileReader_tests.cpp
@@ -34,7 +32,7 @@ add_executable(id_tests ${SOURCEFILES} ${TESTFILES})
 include_directories(../src)
 
 target_link_libraries(id_tests nlohmann_json::nlohmann_json)
-target_link_libraries(id_tests trompeloeil Catch2::Catch2)
+target_link_libraries(id_tests trompeloeil Catch2::Catch2WithMain)
 
 enable_testing()
 add_test(NAME id_tests COMMAND id_tests)
