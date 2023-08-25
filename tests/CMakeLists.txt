@@ -6,6 +6,12 @@ set(SOURCEFILES
     ../src/data/factories/FileReaderFactory.cpp
     ../src/data/factories/MapperFactory.cpp
     ../src/data/implementation/FileReader.cpp
+
+    ../src/data/mappers/cyclonedx/DependencyMapper.cpp
+    ../src/data/mappers/cyclonedx/HashMapper.cpp
+    ../src/data/mappers/cyclonedx/LicenseMapper.cpp
+    ../src/data/mappers/cyclonedx/UrlMapper.cpp
+    ../src/data/mappers/cyclonedx/UrlTypeMapper.cpp
     ../src/data/mappers/CycloneDXMapper.cpp
 )
 
@@ -15,6 +21,12 @@ set(TESTFILES
     data/factories/FileReaderFactory_tests.cpp
     data/factories/MapperFactory_tests.cpp
     data/implementation/FileReader_tests.cpp
+
+#    data/mappers/cyclonedx/DependencyMapper_tests.cpp
+    data/mappers/cyclonedx/HashMapper_tests.cpp
+    data/mappers/cyclonedx/LicenseMapper_tests.cpp
+    data/mappers/cyclonedx/UrlMapper_tests.cpp
+    data/mappers/cyclonedx/UrlTypeMapper_tests.cpp
     data/mappers/CycloneDXMapper_tests.cpp
 )
 

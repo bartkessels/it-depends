@@ -3,8 +3,12 @@
 using namespace id::data::factories;
 using namespace id::data;
 
-MapperFactory::MapperFactory(std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory):
-	fileReaderFactory(fileReaderFactory)
+MapperFactory::MapperFactory(
+	std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory,
+	std::shared_ptr<contracts::IBuilderFactory> builderFactory
+):
+	fileReaderFactory(fileReaderFactory),
+	builderFactory(builderFactory)
 {
 
 }
@@ -12,11 +16,7 @@ MapperFactory::MapperFactory(std::shared_ptr<contracts::IFileReaderFactory> file
 std::shared_ptr<contracts::IMapper> MapperFactory::getMapper(domain::SbomType type)
 {
 	const auto& fileReader = fileReaderFactory->getFileReader();
+	const auto& builder = builderFactory->createBuilder(type);
 
-	if (type == domain::SbomType::CycloneDX)
-	{
-		return std::make_shared<mappers::CycloneDXMapper>(fileReader);
-	}
-
-	throw "Unsupported type";
+	return builder->buildMapper(fileReader);
 }

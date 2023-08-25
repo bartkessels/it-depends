@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "domain/models/UrlType.hpp"
+
 namespace id::domain::models
 {
 	/**
@@ -14,7 +16,7 @@ namespace id::domain::models
 		public:
 			~Url() = default;
 
-			std::string type;
+			UrlType type;
 			std::string url;
 	};
 }

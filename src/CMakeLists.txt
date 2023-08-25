@@ -18,9 +18,18 @@ endif()
 set(SOURCEFILES
         main.cpp
 
+        data/builders/CycloneDXMapperBuilder.cpp
+
+        data/factories/BuilderFactory.cpp
         data/factories/FileReaderFactory.cpp
         data/factories/MapperFactory.cpp
         data/implementation/FileReader.cpp
+
+        data/mappers/cyclonedx/DependencyMapper.cpp
+        data/mappers/cyclonedx/HashMapper.cpp
+        data/mappers/cyclonedx/LicenseMapper.cpp
+        data/mappers/cyclonedx/UrlMapper.cpp
+        data/mappers/cyclonedx/UrlTypeMapper.cpp
         data/mappers/CycloneDXMapper.cpp
 
         presentation/windows/MainWindow.cpp

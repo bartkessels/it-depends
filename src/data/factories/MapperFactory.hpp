@@ -1,12 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <list>
 
+#include "data/contracts/IBuilderFactory.hpp"
 #include "data/contracts/IFileReaderFactory.hpp"
 #include "data/contracts/IMapper.hpp"
 #include "data/contracts/IMapperFactory.hpp"
-#include "data/mappers/CycloneDXMapper.hpp"
 #include "domain/SbomType.hpp"
 
 namespace id::data::factories
@@ -17,12 +16,16 @@ namespace id::data::factories
 	class MapperFactory: public contracts::IMapperFactory
 	{
 		public:
-			MapperFactory(std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory);
+			explicit MapperFactory(
+				std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory,
+				std::shared_ptr<contracts::IBuilderFactory> builderFactory
+			);
 			~MapperFactory() override = default;
 
 			std::shared_ptr<contracts::IMapper> getMapper(domain::SbomType type) override;
 
 		private:
 			std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory;
+			std::shared_ptr<contracts::IBuilderFactory> builderFactory;
 	};
 }

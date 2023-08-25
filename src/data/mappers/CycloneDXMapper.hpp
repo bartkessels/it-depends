@@ -7,9 +7,8 @@
 
 #include "data/contracts/IFileReader.hpp"
 #include "data/contracts/IMapper.hpp"
+#include "data/mappers/cyclonedx/DependencyMapper.hpp"
 #include "domain/models/Dependency.hpp"
-#include "domain/models/Url.hpp"
-#include "domain/models/UrlType.hpp"
 
 using namespace id::domain;
 
@@ -21,17 +20,16 @@ namespace id::data::mappers
 	class CycloneDXMapper: public contracts::IMapper
 	{
 		public:
-			CycloneDXMapper(std::shared_ptr<contracts::IFileReader> fileReader);
+			CycloneDXMapper(
+				  std::shared_ptr<contracts::IFileReader> fileReader,
+				  std::shared_ptr<cyclonedx::DependencyMapper> dependencyMapper
+			 );
 			~CycloneDXMapper() override = default;
 
 			std::list<std::shared_ptr<models::Dependency>> map(std::string filePath) override;
 
 		private:
 			std::shared_ptr<contracts::IFileReader> fileReader;
-
-			std::list<std::shared_ptr<models::Dependency>> mapDependencies(nlohmann::json json);
-			std::shared_ptr<models::Dependency> mapDependency(nlohmann::json json);
-			std::list<std::shared_ptr<models::Url>> mapUrls(nlohmann::json json);
-			std::shared_ptr<models::Url> mapUrl(nlohmann::json json);
+			std::shared_ptr<cyclonedx::DependencyMapper> dependencyMapper;
 	};
 }
