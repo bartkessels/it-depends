@@ -1,11 +1,13 @@
 #include "data/mappers/cyclonedx/DependencyMapper.hpp"
 
+using namespace id::data;
 using namespace id::data::mappers::cyclonedx;
+using namespace id::domain::models;
 
 DependencyMapper::DependencyMapper(
-	std::shared_ptr<HashMapper> hashMapper,
-	std::shared_ptr<LicenseMapper> licenseMapper,
-	std::shared_ptr<UrlMapper> urlMapper
+	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<Hash>>>> hashMapper,
+	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<License>>>> licenseMapper,
+	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<Url>>>> urlMapper
 ):
 	hashMapper(hashMapper),
 	licenseMapper(licenseMapper),
@@ -14,13 +16,15 @@ DependencyMapper::DependencyMapper(
 
 }
 
-std::list<std::shared_ptr<models::Dependency>> DependencyMapper::mapDependencies(nlohmann::json json)
+std::list<std::shared_ptr<models::Dependency>> DependencyMapper::map(nlohmann::json json)
 {
 	auto dependencies = std::list<std::shared_ptr<models::Dependency>>();
 
-	for (const auto& object: json[JSON_KEY_DEPENDENCIES]) {
-		const auto& dependency = mapDependency(object);
-		dependencies.emplace_back(dependency);
+	for (const auto& object: json) {
+		if (!object.empty()) {
+			const auto& dependency = mapDependency(object);
+			dependencies.emplace_back(dependency);
+		}
 	}
 
 	return dependencies;
@@ -33,18 +37,10 @@ std::shared_ptr<models::Dependency> DependencyMapper::mapDependency(nlohmann::js
 	dependency->id = json.value(JSON_KEY_ID, std::string());
 	dependency->name = json.value(JSON_KEY_NAME, std::string());
 	dependency->version = json.value(JSON_KEY_VERSION, std::string());
-
-	if (json.contains(JSON_KEY_HASHES)) {
-		dependency->hashes = hashMapper->mapHashes(json.value(JSON_KEY_HASHES, std::string()));
-	}
-
-	if (json.contains(JSON_KEY_LICENSES)) {
-		dependency->licenses = licenseMapper->mapLicenses(json.value(JSON_KEY_LICENSES, std::string()));
-	}
-
-	if (json.contains(JSON_KEY_URLS)) {
-		dependency->urls = urlMapper->mapUrls(json.value(JSON_KEY_URLS, std::string()));
-	}
+	dependency->description = json.value(JSON_KEY_DESCRIPTION, std::string());
+	dependency->hashes = hashMapper->map(json.value(JSON_KEY_HASHES, nlohmann::json()));
+	dependency->licenses = licenseMapper->map(json.value(JSON_KEY_LICENSES, nlohmann::json()));
+	dependency->urls = urlMapper->map(json.value(JSON_KEY_URLS, nlohmann::json()));
 
 	return dependency;
 }

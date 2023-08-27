@@ -7,7 +7,7 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-TEST_CASE("LicenseMapper.mapLicenses")
+TEST_CASE("LicenseMapper.map")
 {
 	const auto& sut = std::make_shared<LicenseMapper>();
 
@@ -29,7 +29,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->name == expectedName);
@@ -64,7 +64,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->name == expectedNameOne);
@@ -91,7 +91,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->name == expectedName);
@@ -114,7 +114,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->name == expectedName);
@@ -136,7 +136,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->name == expectedName);
@@ -158,7 +158,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		};
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->url == expectedUrl);
@@ -170,7 +170,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		const auto& json = nlohmann::json::parse(R"([{"license": {}}])");
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -182,7 +182,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		const auto& json = nlohmann::json::parse("[{}]");
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -194,7 +194,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		const auto& json = nlohmann::json::parse("{}");
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -206,7 +206,7 @@ TEST_CASE("LicenseMapper.mapLicenses")
 		const auto& json = nlohmann::json::parse("[]");
 
 		// Act
-		const auto& result = sut->mapLicenses(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());

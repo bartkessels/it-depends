@@ -7,7 +7,7 @@
 using namespace id::data::mappers::cyclonedx;
 using namespace id::domain;
 
-TEST_CASE("UrlTypeMapper.mapUrlType")
+TEST_CASE("UrlTypeMapper.map")
 {
 	const auto& sut = std::shared_ptr<UrlTypeMapper>();
 
@@ -17,7 +17,7 @@ TEST_CASE("UrlTypeMapper.mapUrlType")
 		const auto& expected = models::UrlType::Website;
 
 		// Act
-		const auto& result = sut->mapUrlType(type);
+		const auto& result = sut->map(type);
 
 		// Assert
 		REQUIRE(result == expected);
@@ -30,7 +30,7 @@ TEST_CASE("UrlTypeMapper.mapUrlType")
 		const auto& expected = models::UrlType::Website;
 
 		// Act
-		const auto& result = sut->mapUrlType(type);
+		const auto& result = sut->map(type);
 
 		// Assert
 		REQUIRE(result == expected);
@@ -43,7 +43,7 @@ TEST_CASE("UrlTypeMapper.mapUrlType")
 		const auto& expected = models::UrlType::Website;
 
 		// Act
-		const auto& result = sut->mapUrlType(type);
+		const auto& result = sut->map(type);
 
 		// Assert
 		REQUIRE(result == expected);
@@ -56,7 +56,7 @@ TEST_CASE("UrlTypeMapper.mapUrlType")
 		const auto& expected = models::UrlType::IssueTracker;
 
 		// Act
-		const auto& result = sut->mapUrlType(type);
+		const auto& result = sut->map(type);
 
 		// Assert
 		REQUIRE(result == expected);
@@ -69,7 +69,7 @@ TEST_CASE("UrlTypeMapper.mapUrlType")
 		const auto& expected = models::UrlType::VCS;
 
 		// Act
-		const auto& result = sut->mapUrlType(type);
+		const auto& result = sut->map(type);
 
 		// Assert
 		REQUIRE(result == expected);

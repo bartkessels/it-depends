@@ -14,10 +14,10 @@ using namespace id::domain;
 class UrlTypeMapperMock: public UrlTypeMapper
 {
 	public:
-		MAKE_MOCK1(mapUrlType, models::UrlType(std::string));
+		MAKE_MOCK1(map, models::UrlType(std::string));
 };
 
-TEST_CASE("UrlMapper.mapUrls")
+TEST_CASE("UrlMapper.map")
 {
 	const auto& urlTypeMapperMock = std::make_shared<UrlTypeMapperMock>();
 	const auto& sut = std::make_shared<UrlMapper>(urlTypeMapperMock);
@@ -28,7 +28,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		const auto& expectedType = models::UrlType::VCS;
 		const auto& expectedUrl = "https://github.com/bcgit/bc-java";
 
-		ALLOW_CALL(*urlTypeMapperMock, mapUrlType(trompeloeil::_)).RETURN(expectedType);
+		ALLOW_CALL(*urlTypeMapperMock, map(trompeloeil::_)).RETURN(expectedType);
 
 		const nlohmann::json& json = {
 				{
@@ -38,7 +38,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		};
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->type == expectedType);
@@ -54,11 +54,11 @@ TEST_CASE("UrlMapper.mapUrls")
 		const auto& expectedUrlTwo = "https://github.com/bcgit/bc-java/issues";
 
 		trompeloeil::sequence seq;
-		ALLOW_CALL(*urlTypeMapperMock, mapUrlType(trompeloeil::_))
+		ALLOW_CALL(*urlTypeMapperMock, map(trompeloeil::_))
 			.RETURN(expectedTypeOne)
 			.IN_SEQUENCE(seq);
 
-		ALLOW_CALL(*urlTypeMapperMock, mapUrlType(trompeloeil::_))
+		ALLOW_CALL(*urlTypeMapperMock, map(trompeloeil::_))
 				.RETURN(expectedTypeTwo)
 				.IN_SEQUENCE(seq);
 
@@ -74,7 +74,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		};
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->type == expectedTypeOne);
@@ -94,7 +94,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		};
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -110,7 +110,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		};
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -122,7 +122,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		const auto& json = nlohmann::json::parse("[{}]");
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -141,10 +141,10 @@ TEST_CASE("UrlMapper.mapUrls")
 			]
 		)");
 
-		ALLOW_CALL(*urlTypeMapperMock, mapUrlType(trompeloeil::_)).RETURN(models::UrlType::VCS);
+		ALLOW_CALL(*urlTypeMapperMock, map(trompeloeil::_)).RETURN(models::UrlType::VCS);
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.size() == 1);
@@ -156,7 +156,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		const auto& json = nlohmann::json::parse("{}");
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -168,7 +168,7 @@ TEST_CASE("UrlMapper.mapUrls")
 		const auto& json = nlohmann::json::parse("[]");
 
 		// Act
-		const auto& result = sut->mapUrls(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());

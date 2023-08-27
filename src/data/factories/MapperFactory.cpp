@@ -16,7 +16,7 @@ MapperFactory::MapperFactory(
 std::shared_ptr<contracts::IMapper> MapperFactory::getMapper(domain::SbomType type)
 {
 	const auto& fileReader = fileReaderFactory->getFileReader();
-	const auto& builder = builderFactory->createBuilder(type);
+	const auto& builder = builderFactory->build(type);
 
-	return builder->buildMapper(fileReader);
+	return builder->build(fileReader);
 }

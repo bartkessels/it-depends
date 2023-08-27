@@ -31,6 +31,7 @@ With this application you can visualize all the dependencies based on the genera
   - [4.2 Linux](#42-linux)
   - [4.3 Windows](#43-windows)
 - [5. Automated testing](#5-automated-testing)
+  - [5.1 Generate coverage report](#51-generate-coverage-report)
 - [6. Contribute](#6-contribute)
   - [6.1 Branching strategy](#61-branching-strategy)
 - [7. Create a new release](#7-create-a-new-release)
@@ -88,6 +89,10 @@ These commands can be set through the `-D<variable_name>=<variable_value>` flag 
   - __Values__: [`true`, `false`]
   - __Default value__: `false`
   - __Description__: Package It Depends for all supported platforms. 
+- `generate_coverage_report`
+  - __Values__: [`true`, `false`]
+  - __Default value__: `false`
+  - __Description__: Generate a test coverage report when running `id_tests`.
 
 ## 3.1 MacOS
 
@@ -112,8 +117,8 @@ This will create the `bin/ItDepends` binary file. This can be executed by either
 ## 3.3 Windows
 
 ```powershell
-C:\ItDepends> cmake -G `"Visual Studio 17 2022`"
-C:\ItDepends> msbuild ItDepends.sln -property:Configuration=Release
+C:\ItDepends> cmake -G Ninja
+C:\ItDepends> ninja ItDepends
 ```
 
 This will create the `bin/ItDepends.exe` executable. It can be executed by double-clicking the file in the File Explorer.
@@ -157,10 +162,10 @@ Build the Windows executable with all dependencies and required frameworks.
 
 ```powershell
 # Setup the project files
-C:\ItDepends> cmake . -G `"Visual Studio 17 2022`" -Dpackaging=true
+C:\ItDepends> cmake . -G Ninja -Dpackaging=true
 
 # Generate the executable
-C:\ItDepends> msbuild ItDepends.sln -property:Configuration=Release
+C:\ItDepends> ninja ItDepends
 
 # Add the Qt dependencies to the executable
 C:\ItDepends> windeployqt bin/ItDepends.exe
@@ -174,7 +179,7 @@ You can also execute these tests manually by building and running the `id_tests`
 
 ```bash
 # Build the test executable
-$ cmake -G Ninja
+$ cmake . -G Ninja
 $ ninja id_tests
 
 # Run the tests
@@ -182,6 +187,22 @@ $ ./bin/id_tests
 ```
 
 This will generate an application purely for testing _It Depends_. This application does not include the _It Depends_ GUI, so it doesn't do anything beyond executing the tests.
+
+## 5.1 Generate coverage report
+
+To generate a test coverage report for the test projects, set the `generate_coverage_report` when creating the `id_tests` project.
+Thus the `cmake . -G Ninja` command above, would look like this `cmake . -G Ninja -Dgenerate_coverage_report=true`.
+
+This will create the `default.profraw` file in the root of the repository. You can read this file using `llvm-cov export`.
+
+The complete setup of viewing the coverage would look like this.
+
+```bash
+$ cmake . -G Ninja -Dgenerate_coverage_report=true
+$ ninja id_tests
+$ ./bin/id_tests
+$ llvm-cov export default.profraw
+```
 
 # 6. Contribute
 

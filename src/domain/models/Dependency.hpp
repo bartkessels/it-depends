@@ -24,6 +24,7 @@ namespace id::domain::models
 
 			std::string id;
 			std::string name;
+			std::string description;
 			std::string version;
 			std::list<std::shared_ptr<Url>> urls;
 			std::list<std::shared_ptr<Hash>> hashes;

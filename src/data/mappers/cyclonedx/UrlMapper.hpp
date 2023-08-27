@@ -5,6 +5,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
+#include "data/contracts/IJsonMapper.hpp"
 #include "data/mappers/cyclonedx/UrlTypeMapper.hpp"
 #include "domain/models/Url.hpp"
 #include "domain/models/UrlType.hpp"
@@ -20,13 +21,13 @@ namespace id::data::mappers::cyclonedx
 	 * url have a value. Otherwise there's no need to parse the
 	 * json object because it cannot be properly displayed.
 	 */
-	class UrlMapper
+	class UrlMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>
 	{
 		public:
 			explicit UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper);
-			~UrlMapper() = default;
+			~UrlMapper() override = default;
 
-			std::list<std::shared_ptr<models::Url>> mapUrls(nlohmann::json json);
+			std::list<std::shared_ptr<models::Url>> map(nlohmann::json json) override;
 
 		private:
 			inline static const std::string JSON_KEY_URL_TYPE = "type";

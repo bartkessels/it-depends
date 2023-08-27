@@ -5,6 +5,7 @@
 #include "data/builders/CycloneDXMapperBuilder.hpp"
 #include "data/contracts/IBuilderFactory.hpp"
 #include "data/contracts/IMapperBuilder.hpp"
+#include "data/exceptions/UnsupportedSBOMTypeException.hpp"
 #include "domain/SbomType.hpp"
 
 namespace id::data::factories
@@ -19,6 +20,6 @@ namespace id::data::factories
 		public:
 			~BuilderFactory() override = default;
 
-			std::shared_ptr<contracts::IMapperBuilder> createBuilder(domain::SbomType type) override;
+			std::shared_ptr<contracts::IMapperBuilder> build(domain::SbomType type) override;
 	};
 }

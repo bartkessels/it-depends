@@ -5,7 +5,7 @@
 
 namespace id::data::exceptions
 {
-	class FileNotFoundException: public std::exception
+	class UnsupportedSBOMTypeException: public std::exception
 	{
 		public:
 			[[nodiscard]] const char* what() const noexcept override {
@@ -13,6 +13,6 @@ namespace id::data::exceptions
 			}
 
 		private:
-			static inline const std::string message = "The file could not be found.";
+			static inline const std::string message = "Unsupported SBOM type.";
 	};
 }

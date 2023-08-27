@@ -2,7 +2,7 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-models::UrlType UrlTypeMapper::mapUrlType(std::string type)
+models::UrlType UrlTypeMapper::map(std::string type)
 {
 	if (type == URL_TYPE_ISSUE_TRACKER) {
 		return models::UrlType::IssueTracker;

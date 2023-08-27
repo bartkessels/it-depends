@@ -16,5 +16,5 @@ CycloneDXMapper::CycloneDXMapper(
 std::list<std::shared_ptr<models::Dependency>> CycloneDXMapper::map(std::string filePath)
 {
 	auto json = nlohmann::json::parse(fileReader->readFile(filePath));
-	return dependencyMapper->mapDependencies(json);
+	return dependencyMapper->map(json);
 }

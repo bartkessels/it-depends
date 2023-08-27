@@ -7,7 +7,7 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-TEST_CASE("HashMapper.mapHashes")
+TEST_CASE("HashMapper.map")
 {
 	const auto& sut = std::make_shared<HashMapper>();
 
@@ -25,7 +25,7 @@ TEST_CASE("HashMapper.mapHashes")
 		};
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->algorithm == expectedAlgorithm);
@@ -52,7 +52,7 @@ TEST_CASE("HashMapper.mapHashes")
 		};
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->algorithm == expectedAlgorithmOne);
@@ -72,7 +72,7 @@ TEST_CASE("HashMapper.mapHashes")
 		};
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->algorithm == std::string());
@@ -88,7 +88,7 @@ TEST_CASE("HashMapper.mapHashes")
 		};
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.front()->value == std::string());
@@ -100,7 +100,7 @@ TEST_CASE("HashMapper.mapHashes")
 		const auto& json = nlohmann::json::parse("[{}]");
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -120,7 +120,7 @@ TEST_CASE("HashMapper.mapHashes")
 		)");
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.size() == 1);
@@ -132,7 +132,7 @@ TEST_CASE("HashMapper.mapHashes")
 		const auto& json = nlohmann::json::parse("{}");
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());
@@ -144,7 +144,7 @@ TEST_CASE("HashMapper.mapHashes")
 		const auto& json = nlohmann::json::parse("[]");
 
 		// Act
-		const auto& result = sut->mapHashes(json);
+		const auto& result = sut->map(json);
 
 		// Assert
 		REQUIRE(result.empty());

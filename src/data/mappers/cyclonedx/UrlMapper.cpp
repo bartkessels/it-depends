@@ -8,7 +8,7 @@ UrlMapper::UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper):
 
 }
 
-std::list<std::shared_ptr<models::Url>> UrlMapper::mapUrls(nlohmann::json json)
+std::list<std::shared_ptr<models::Url>> UrlMapper::map(nlohmann::json json)
 {
 	auto urls = std::list<std::shared_ptr<models::Url>>();
 
@@ -26,7 +26,7 @@ std::shared_ptr<models::Url> UrlMapper::mapUrl(nlohmann::json json)
 {
 	const auto& url = std::make_shared<models::Url>();
 
-	url->type = urlTypeMapper->mapUrlType(json.value(JSON_KEY_URL_TYPE, std::string()));
+	url->type = urlTypeMapper->map(json.value(JSON_KEY_URL_TYPE, std::string()));
 	url->url = json.value(JSON_KEY_URL, std::string());
 
 	return url;

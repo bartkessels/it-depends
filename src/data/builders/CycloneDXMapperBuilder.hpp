@@ -19,6 +19,6 @@ namespace id::data::builders
 		public:
 			~CycloneDXMapperBuilder() override = default;
 
-			std::shared_ptr<contracts::IMapper> buildMapper(std::shared_ptr<contracts::IFileReader> fileReader) override;
+			std::shared_ptr<contracts::IMapper> build(std::shared_ptr<contracts::IFileReader> fileReader) override;
 	};
 }

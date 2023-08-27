@@ -12,6 +12,6 @@ namespace id::data::contracts
 		public:
 			virtual ~IMapperBuilder() = default;
 
-			virtual std::shared_ptr<IMapper> buildMapper(std::shared_ptr<IFileReader> fileReader) = 0;
+			virtual std::shared_ptr<IMapper> build(std::shared_ptr<contracts::IFileReader> fileReader) = 0;
 	};
 }

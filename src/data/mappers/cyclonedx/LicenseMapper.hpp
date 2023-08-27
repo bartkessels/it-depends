@@ -5,6 +5,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
+#include "data/contracts/IJsonMapper.hpp"
 #include "domain/models/License.hpp"
 
 using namespace id::domain;
@@ -15,12 +16,12 @@ namespace id::data::mappers::cyclonedx
 	 * Map a json object with licenses to a generic list of Licenses.
 	 *
 	 */
-	class LicenseMapper
+	class LicenseMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>
 	{
 		public:
-			~LicenseMapper() = default;
+			~LicenseMapper() override = default;
 
-			std::list<std::shared_ptr<models::License>> mapLicenses(nlohmann::json json);
+			std::list<std::shared_ptr<models::License>> map(nlohmann::json json) override;
 
 		private:
 			inline static const std::string JSON_KEY_LICENSE = "license";
