@@ -15,17 +15,14 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            generator: Ninja
             test_command: ./bin/id_tests
             qt_arch: gcc_64
 
           - os: macos-13
-            generator: Ninja
             test_command: ./bin/id_tests
             qt_arch: clang_64
 
           - os: windows-latest
-            generator: Ninja
             test_command: '.\bin\id_tests.exe'
             qt_arch: win64_mingw
 
@@ -59,7 +56,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create It Depends project
-        run: cmake . -G "${{ matrix.generator }}" -DCMAKE_CXX_FLAGS='-w' -DCMAKE_CXX_FLAGS="--coverage"
+        run: cmake . -G Ninja -DCMAKE_CXX_FLAGS='-w' -Dgenerate_coverage_report=true
 
       - name: Build It Depends
         run: ninja ItDepends

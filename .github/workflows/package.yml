@@ -10,17 +10,14 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            generator: Ninja
             artifact_name: ItDepends_x64-Linux.tar.gz
             qt_arch: gcc_64
 
           - os: macos-13
-            generator: Ninja
             artifact_name: ItDepends_x64-MacOS.zip
             qt_arch: clang_64
 
           - os: windows-latest
-            generator: Ninja
             artifact_name: ItDepends_x64-Windows.zip
             qt_arch: win64_mingw
 
@@ -56,7 +53,7 @@ jobs:
 
       - name: Create It Depends project
         run: |
-          cmake . -G ${{ matrix.generator }} -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
+          cmake . -G Ninja -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
