@@ -14,8 +14,6 @@ namespace id::domain::models
 	struct Url
 	{
 		public:
-			~Url() = default;
-
 			UrlType type;
 			std::string url;
 	};

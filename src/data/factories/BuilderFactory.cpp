@@ -3,7 +3,7 @@
 using namespace id::data;
 using namespace id::data::factories;
 
-std::shared_ptr<contracts::IMapperBuilder> BuilderFactory::build(domain::SbomType type)
+auto BuilderFactory::build(domain::SbomType type) -> std::shared_ptr<contracts::IMapperBuilder>
 {
 	switch (type)
 	{

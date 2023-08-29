@@ -10,8 +10,7 @@ namespace id::data::contracts
 	struct IMapperBuilder
 	{
 		public:
-			virtual ~IMapperBuilder() = default;
-
-			virtual std::shared_ptr<IMapper> build(std::shared_ptr<contracts::IFileReader> fileReader) = 0;
+			virtual auto build(const std::shared_ptr<contracts::IFileReader>& fileReader) -> std::shared_ptr<contracts::IMapper> = 0;
 	};
+
 }

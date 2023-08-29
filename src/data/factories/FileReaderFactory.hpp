@@ -11,8 +11,6 @@ namespace id::data::factories
 	class FileReaderFactory: public contracts::IFileReaderFactory
 	{
 		public:
-			~FileReaderFactory() override = default;
-
-			std::shared_ptr<contracts::IFileReader> getFileReader() override;
+			auto getFileReader() -> std::shared_ptr<contracts::IFileReader> override;
 	};
 }

@@ -14,8 +14,6 @@ namespace id::data::contracts
 	struct IBuilderFactory
 	{
 		public:
-			virtual ~IBuilderFactory() = default;
-
-			virtual std::shared_ptr<IMapperBuilder> build(domain::SbomType type) = 0;
+			virtual auto build(domain::SbomType type) -> std::shared_ptr<contracts::IMapperBuilder> = 0;
 	};
 }

@@ -14,7 +14,7 @@ using namespace id::domain;
 class UrlTypeMapperMock: public UrlTypeMapper
 {
 	public:
-		MAKE_MOCK1(map, models::UrlType(std::string));
+		MAKE_MOCK1(map, models::UrlType(const std::string&));
 };
 
 TEST_CASE("UrlMapper.map")

@@ -14,8 +14,6 @@ namespace id::domain::models
 	struct License
 	{
 		public:
-			~License() = default;
-
 			std::string name;
 			std::string url;
 	};

@@ -3,7 +3,7 @@
 using namespace id::data::factories;
 using namespace id::data;
 
-std::shared_ptr<contracts::IFileReader> FileReaderFactory::getFileReader()
+auto FileReaderFactory::getFileReader() -> std::shared_ptr<contracts::IFileReader>
 {
 	return std::make_shared<implementation::FileReader>();
 }

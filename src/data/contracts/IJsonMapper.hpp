@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <list>
 #include <nlohmann/json.hpp>
 
 namespace id::data::contracts
@@ -9,7 +10,6 @@ namespace id::data::contracts
 	struct IJsonMapper
 	{
 		public:
-			virtual ~IJsonMapper() = default;
-			virtual T map(nlohmann::json json) = 0;
+			virtual auto map(const nlohmann::json& json) -> T = 0;
 	};
 }

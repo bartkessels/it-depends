@@ -19,14 +19,12 @@ namespace id::data::mappers::cyclonedx
 	class HashMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>
 	{
 		public:
-			~HashMapper() override = default;
-
-			std::list<std::shared_ptr<models::Hash>> map(nlohmann::json json) override;
+			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Hash>> override;
 
 		private:
 			inline static const std::string JSON_KEY_ALGORITHM = "alg";
 			inline static const std::string JSON_KEY_VALUE = "content";
 
-			std::shared_ptr<models::Hash> mapHash(nlohmann::json json);
+			static auto mapHash(const nlohmann::json& json) -> std::shared_ptr<models::Hash>;
 	};
 }

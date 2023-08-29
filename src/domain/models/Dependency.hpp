@@ -20,8 +20,6 @@ namespace id::domain::models
 	struct Dependency
 	{
 		public:
-			~Dependency() = default;
-
 			std::string id;
 			std::string name;
 			std::string description;

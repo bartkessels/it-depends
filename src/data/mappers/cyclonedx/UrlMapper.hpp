@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <nlohmann/json.hpp>
+#include <utility>
 
 #include "data/contracts/IJsonMapper.hpp"
 #include "data/mappers/cyclonedx/UrlTypeMapper.hpp"
@@ -24,10 +25,10 @@ namespace id::data::mappers::cyclonedx
 	class UrlMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>
 	{
 		public:
+			virtual ~UrlMapper() = default;
 			explicit UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper);
-			~UrlMapper() override = default;
 
-			std::list<std::shared_ptr<models::Url>> map(nlohmann::json json) override;
+			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Url>> override;
 
 		private:
 			inline static const std::string JSON_KEY_URL_TYPE = "type";
@@ -35,6 +36,6 @@ namespace id::data::mappers::cyclonedx
 
 			std::shared_ptr<UrlTypeMapper> urlTypeMapper;
 
-			std::shared_ptr<models::Url> mapUrl(nlohmann::json json);
+			auto mapUrl(const nlohmann::json& json) -> std::shared_ptr<models::Url>;
 	};
 }

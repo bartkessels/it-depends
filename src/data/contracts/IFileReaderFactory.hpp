@@ -9,8 +9,6 @@ namespace id::data::contracts
 	struct IFileReaderFactory
 	{
 		public:
-			virtual ~IFileReaderFactory() = default;
-
-			virtual std::shared_ptr<IFileReader> getFileReader() = 0;
+			virtual auto getFileReader() -> std::shared_ptr<contracts::IFileReader> = 0;
 	};
 }

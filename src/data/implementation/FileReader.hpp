@@ -14,8 +14,6 @@ namespace id::data::implementation
 	class FileReader: public contracts::IFileReader
 	{
 		public:
-			~FileReader() override = default;
-
-			std::string readFile(const std::string& filePath) override;
+			auto readFile(const std::string& filePath) -> std::string override;
 	};
 }

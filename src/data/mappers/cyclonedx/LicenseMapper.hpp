@@ -19,9 +19,7 @@ namespace id::data::mappers::cyclonedx
 	class LicenseMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>
 	{
 		public:
-			~LicenseMapper() override = default;
-
-			std::list<std::shared_ptr<models::License>> map(nlohmann::json json) override;
+			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::License>> override;
 
 		private:
 			inline static const std::string JSON_KEY_LICENSE = "license";
@@ -29,6 +27,6 @@ namespace id::data::mappers::cyclonedx
 			inline static const std::string JSON_KEY_NAME = "name";
 			inline static const std::string JSON_KEY_URL = "url";
 
-			std::shared_ptr<models::License> mapLicense(nlohmann::json json);
+			static auto mapLicense(const nlohmann::json& json) -> std::shared_ptr<models::License>;
 	};
 }

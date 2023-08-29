@@ -24,9 +24,8 @@ namespace id::data::mappers
 				  std::shared_ptr<contracts::IFileReader> fileReader,
 				  std::shared_ptr<cyclonedx::DependencyMapper> dependencyMapper
 			 );
-			~CycloneDXMapper() override = default;
 
-			std::list<std::shared_ptr<models::Dependency>> map(std::string filePath) override;
+			auto map(const std::string& filePath) -> std::list<std::shared_ptr<models::Dependency>> override;
 
 		private:
 			std::shared_ptr<contracts::IFileReader> fileReader;

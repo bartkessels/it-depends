@@ -7,8 +7,6 @@ namespace id::data::contracts
 	struct IFileReader
 	{
 		public:
-			virtual ~IFileReader() = default;
-
-			virtual std::string readFile(const std::string& filePath) = 0;
+			virtual auto readFile(const std::string& filePath) -> std::string = 0;
 	};
 }

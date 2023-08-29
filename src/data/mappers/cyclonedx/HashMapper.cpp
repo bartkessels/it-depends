@@ -2,7 +2,7 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-std::list<std::shared_ptr<models::Hash>> HashMapper::map(nlohmann::json json)
+auto HashMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Hash>>
 {
 	auto hashes = std::list<std::shared_ptr<models::Hash>>();
 
@@ -15,7 +15,8 @@ std::list<std::shared_ptr<models::Hash>> HashMapper::map(nlohmann::json json)
 
 	return hashes;
 }
-std::shared_ptr<models::Hash> HashMapper::mapHash(nlohmann::json json)
+
+auto HashMapper::mapHash(const nlohmann::json& json) -> std::shared_ptr<models::Hash>
 {
 	const auto& hash = std::make_shared<models::Hash>();
 

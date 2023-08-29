@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>It Depends</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -27,7 +27,7 @@
        <bool>false</bool>
       </property>
       <widget class="QListView" name="globalDependencies"/>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="spacing">
          <number>6</number>
@@ -152,7 +152,7 @@
      <property name="title">
       <string>Open File</string>
      </property>
-     <addaction name="actionCyclone_DX"/>
+     <addaction name="actionOpenCycloneDX"/>
     </widget>
     <addaction name="menuOpen_File"/>
     <addaction name="separator"/>
@@ -161,7 +161,7 @@
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionCyclone_DX">
+  <action name="actionOpenCycloneDX">
    <property name="text">
     <string>Cyclone DX</string>
    </property>

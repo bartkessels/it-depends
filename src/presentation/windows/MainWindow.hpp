@@ -1,7 +1,10 @@
 #pragma once
 
 #include <memory>
+#include <QFileDialog>
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QString>
 
 #include "presentation/states/EmptyState.hpp"
 #include "presentation/states/ErrorState.hpp"
@@ -31,5 +34,14 @@ namespace id::presentation::windows
 		private:
 			Ui::MainWindow* ui;
 			std::shared_ptr<IMainWindowViewModel> viewModel;
+
+			std::string openFile();
+			void openCycloneDXFile();
+
+		signals:
+			void changeState(std::shared_ptr<states::MainWindowState> state);
+
+		private slots:
+			void handleStateChange(std::shared_ptr<states::MainWindowState> state);
 	};
 }

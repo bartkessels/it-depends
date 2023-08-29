@@ -17,9 +17,7 @@ namespace id::data::mappers::cyclonedx
 	class UrlTypeMapper
 	{
 		public:
-			~UrlTypeMapper() = default;
-
-			models::UrlType map(std::string type);
+			auto map(const std::string& type) -> models::UrlType;
 
 		private:
 			inline static const std::string URL_TYPE_ISSUE_TRACKER = "issue-tracker";

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <memory>
 
 #include "data/contracts/IMapper.hpp"
@@ -14,8 +13,6 @@ namespace id::data::contracts
 	struct IMapperFactory
 	{
 		public:
-			virtual ~IMapperFactory() = default;
-
-			virtual std::shared_ptr<IMapper> getMapper(domain::SbomType type) = 0;
+			virtual auto getMapper(domain::SbomType type) -> std::shared_ptr<contracts::IMapper> = 0;
 	};
 }

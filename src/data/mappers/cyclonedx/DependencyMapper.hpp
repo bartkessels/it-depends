@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <nlohmann/json.hpp>
+#include <utility>
 
 #include "data/contracts/IJsonMapper.hpp"
 #include "domain/models/Dependency.hpp"
@@ -20,14 +21,14 @@ namespace id::data::mappers::cyclonedx
 		public:
 			explicit DependencyMapper(
 				std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>> hashMapper,
-		 		std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>> licenseMapper,
-		 		std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>> urlMapper
+				std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>> licenseMapper,
+				std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>> urlMapper
 			);
-			~DependencyMapper() override = default;
 
-			std::list<std::shared_ptr<models::Dependency>> map(nlohmann::json json) override;
+			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Dependency>> override;
 
 		private:
+			inline static const std::string JSON_KEY_PARENT = "component";
 			inline static const std::string JSON_KEY_DEPENDENCIES = "components";
 			inline static const std::string JSON_KEY_ID = "bom-ref";
 			inline static const std::string JSON_KEY_NAME = "name";
@@ -36,11 +37,16 @@ namespace id::data::mappers::cyclonedx
 			inline static const std::string JSON_KEY_HASHES = "hashes";
 			inline static const std::string JSON_KEY_LICENSES = "licenses";
 			inline static const std::string JSON_KEY_URLS = "externalReferences";
+			inline static const std::string JSON_KEY_DEPENDENCY_TREE = "dependencies";
+			inline static const std::string JSON_KEY_DEPENDENCY_TREE_ID = "ref";
+			inline static const std::string JSON_KEY_DEPENDENCY_TREE_DEPENDENCIES = "dependsOn";
 
 			std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>> hashMapper;
 			std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>> licenseMapper;
 			std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>> urlMapper;
 
-			std::shared_ptr<models::Dependency> mapDependency(nlohmann::json json);
+			auto mapDependency(const nlohmann::json& json) -> std::shared_ptr<models::Dependency>;
+			auto buildDependency(const nlohmann::json& json, const std::string& id) -> std::shared_ptr<models::Dependency>;
+			auto buildDependencyTree(const nlohmann::json& json, const std::string& parentId) -> std::list<std::shared_ptr<models::Dependency>>;
 	};
 }

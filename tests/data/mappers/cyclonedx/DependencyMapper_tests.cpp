@@ -18,19 +18,19 @@ using namespace id::domain;
 class HashMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Hash>>(nlohmann::json), override);
+		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Hash>>(const nlohmann::json&), override);
 };
 
 class LicenseMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::License>>(nlohmann::json), override);
+		MAKE_MOCK1(map, std::list<std::shared_ptr<models::License>>(const nlohmann::json&), override);
 };
 
 class UrlMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Url>>(nlohmann::json), override);
+		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Url>>(const nlohmann::json&), override);
 };
 
 TEST_CASE("DependencyMapper.map")
@@ -54,35 +54,39 @@ TEST_CASE("DependencyMapper.map")
 		const auto& expectedVersion = "1.62";
 
 		const nlohmann::json& json = {
+			{ "components",
 				{
-						{ "type", "library" },
-						{ "bom-ref", expectedId },
-						{ "group", "org.bouncycastle" },
-						{ "name", expectedName },
-						{ "version", expectedVersion },
-						{ "description", expectedDescription },
-						{ "hashes", {
-							{
-								{ "alg", "MD5" },
-								{ "content", "01b1a8cff910fdb9328cef5c437ff2f9" }
-							}
-						}},
-						{ "licenses", {
-							{
-								{ "license", {
-									{ "name", "Bouncy Castle License" },
-									{ "url", "http://www.bouncycastle.org/licence.html" }
-								}}
-							}
-						}},
-						{ "purl", "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar" },
-						{ "externalReferences", {
-							{
-								{ "type", "issue-tracker" },
-								{ "url", "https://github.com/bcgit/bc-java/issues" }
-							}
-						}}
+					{
+						  {"type", "library"},
+						  {"bom-ref", expectedId},
+						  {"group", "org.bouncycastle"},
+						  {"name", expectedName},
+						  {"version", expectedVersion},
+						  {"description", expectedDescription},
+						  {"hashes", {
+								  {
+										  {"alg", "MD5"},
+										  {"content", "01b1a8cff910fdb9328cef5c437ff2f9"}
+								  }
+						  }},
+						  {"licenses", {
+								  {
+										  {"license", {
+												  {"name", "Bouncy Castle License"},
+												  {"url", "http://www.bouncycastle.org/licence.html"}
+										  }}
+								  }
+						  }},
+						  {"purl", "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"},
+						  {"externalReferences", {
+								  {
+										  {"type", "issue-tracker"},
+										  {"url", "https://github.com/bcgit/bc-java/issues"}
+								  }
+						  }}
+					}
 				}
+			}
 		};
 
 		// Act
@@ -108,63 +112,67 @@ TEST_CASE("DependencyMapper.map")
 		const auto& expectedVersionTwo = "1.57";
 
 		const nlohmann::json& json = {
-				{
-						{ "type", "library" },
-						{ "bom-ref", expectedIdOne },
-						{ "group", "org.bouncycastle" },
-						{ "name", expectedNameOne },
-						{ "version", expectedVersionOne },
-						{ "description", expectedDescriptionOne },
-						{ "hashes", {
-							{
-								{ "alg", "MD5" },
-								{ "content", "01b1a8cff910fdb9328cef5c437ff2f9" }
-							}
-						}},
-						{ "licenses", {
-							{
-								{ "license", {
-									{ "name", "Bouncy Castle License" },
-									{ "url", "http://www.bouncycastle.org/licence.html" }
-								}}
-							}
-						}},
-						{ "purl", "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar" },
-						{ "externalReferences", {
-							{
-								{ "type", "issue-tracker" },
-								{ "url", "https://github.com/bcgit/bc-java/issues" }
-							}
-						}}
-				},
-				{
-						{ "type", "library" },
-						{ "bom-ref", expectedIdTwo },
-						{ "group", "org.bouncycastle" },
-						{ "name", expectedNameTwo },
-						{ "version", expectedVersionTwo },
-						{ "description", expectedDescriptionTwo },
-						{ "hashes", {
-							{
-								{ "alg", "MD5" },
-								{ "content", "c488e97d0a455ef687b1b8d46795554f" }
-							}
-						}},
-						{ "licenses", {
-							{
-								{ "license", {
-									{ "name", "Bouncy Castle License" },
-									{ "url", "http://www.bouncycastle.org/licence.html" }
-								}}
-							}
-						}},
-						{ "purl", "pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.62?type=jar" },
-						{ "externalReferences", {
-							{
-								{ "type", "issue-tracker" },
-								{ "url", "https://github.com/bcgit/bc-java/issues" }
-							}
-						}}
+				{"components",
+				 {
+					{
+						  {"type", "library"},
+						  {"bom-ref", expectedIdOne},
+						  {"group", "org.bouncycastle"},
+						  {"name", expectedNameOne},
+						  {"version", expectedVersionOne},
+						  {"description", expectedDescriptionOne},
+						  {"hashes", {
+								  {
+										  {"alg", "MD5"},
+										  {"content", "01b1a8cff910fdb9328cef5c437ff2f9"}
+								  }
+						  }},
+						  {"licenses", {
+								  {
+										  {"license", {
+												  {"name", "Bouncy Castle License"},
+												  {"url", "http://www.bouncycastle.org/licence.html"}
+										  }}
+								  }
+						  }},
+						  {"purl", "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"},
+						  {"externalReferences", {
+								  {
+										  {"type", "issue-tracker"},
+										  {"url", "https://github.com/bcgit/bc-java/issues"}
+								  }
+						  }}
+				  },
+				  {
+						  {"type", "library"},
+						  {"bom-ref", expectedIdTwo},
+						  {"group", "org.bouncycastle"},
+						  {"name", expectedNameTwo},
+						  {"version", expectedVersionTwo},
+						  {"description", expectedDescriptionTwo},
+						  {"hashes", {
+								  {
+										  {"alg", "MD5"},
+										  {"content", "c488e97d0a455ef687b1b8d46795554f"}
+								  }
+						  }},
+						  {"licenses", {
+								  {
+										  {"license", {
+												  {"name", "Bouncy Castle License"},
+												  {"url", "http://www.bouncycastle.org/licence.html"}
+										  }}
+								  }
+						  }},
+						  {"purl", "pkg:maven/org.bouncycastle/bcpkix-jdk15on@1.62?type=jar"},
+						  {"externalReferences", {
+								  {
+										  {"type", "issue-tracker"},
+										  {"url", "https://github.com/bcgit/bc-java/issues"}
+								  }
+						  }}
+				 		}
+				 	}
 				}
 		};
 
@@ -188,32 +196,34 @@ TEST_CASE("DependencyMapper.map")
 		// Arrange
 		const auto& expected = std::string();
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+					{
+						"type": "library",
+						"group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+						  		"alg": "MD5",
+						  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+							}
+						],
+						"licenses": [{"license": {
+        					"name": "Bouncy Castle Licence",
+        					"url": "http://www.bouncycastle.org/licence.html"
+      					}}],
+						"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+						"externalReferences": [
+        					{
+          						"type": "issue-tracker",
+          						"url": "https://github.com/bcgit/bc-java/issues"
+        					}
+						]
+					}
+				]
+			}
 		)");
 
 		// Act
@@ -228,32 +238,34 @@ TEST_CASE("DependencyMapper.map")
 		// Arrange
 		const auto& expected = std::string();
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"version": "1.62",
+					 	"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Act
@@ -268,32 +280,34 @@ TEST_CASE("DependencyMapper.map")
 		// Arrange
 		const auto& expected = std::string();
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Act
@@ -307,32 +321,34 @@ TEST_CASE("DependencyMapper.map")
 		// Arrange
 		const auto& expected = std::string();
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Act
@@ -346,33 +362,35 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -386,27 +404,29 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -421,33 +441,35 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -461,29 +483,31 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -497,33 +521,35 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				}
-					]
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -537,27 +563,29 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"
-				}
-			]
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"
+					}
+				]
+			}
 		)");
 
 		// Assert
@@ -567,10 +595,48 @@ TEST_CASE("DependencyMapper.map")
 		sut->map(json);
 	}
 
+	SECTION("maps the dependencies to an empty list when none are available")
+	{
+		// Arrange
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->dependencies.empty());
+	}
+
+	// TODO: Test the mapping of dependencies
+
 	SECTION("returns an empty list when the dependency is an empty object")
 	{
 		// Arrange
-		const auto& json = nlohmann::json::parse("[{}]");
+		const auto& json = nlohmann::json::parse(R"({ "components": [{}]})");
 
 		// Act
 		const auto& result = sut->map(json);
@@ -583,38 +649,39 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
-			[
-				{
-					"type": "library",
-					"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-					"group": "org.bouncycastle",
-					"name": "bcprov-jdk15on",
-					"version": "1.62",
-					"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
-					"hashes": [
-						{
-					  		"alg": "MD5",
-					  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
-						}
-					],
-					"licenses": [{"license": {
-        				"name": "Bouncy Castle Licence",
-        				"url": "http://www.bouncycastle.org/licence.html"
-      				}}],
-					"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
-      				"externalReferences": [
-        				{
-          					"type": "issue-tracker",
-          					"url": "https://github.com/bcgit/bc-java/issues"
-        				},
-        				{
-          					"type": "vcs",
-          					"url": "https://github.com/bcgit/bc-java"
-        				}
-      				]
-				},
-				{}
-			]
+			{ "components": [
+					{
+						"type": "library",
+						"bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+						"group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+						  		"alg": "MD5",
+						  		"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+							}
+						],
+						"licenses": [{"license": {
+        					"name": "Bouncy Castle Licence",
+        					"url": "http://www.bouncycastle.org/licence.html"
+      					}}],
+						"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+      					"externalReferences": [
+        					{
+          						"type": "issue-tracker",
+          						"url": "https://github.com/bcgit/bc-java/issues"
+        					},
+        					{
+          						"type": "vcs",
+          						"url": "https://github.com/bcgit/bc-java"
+        					}
+      					]
+					},
+					{}
+				]
+			}
 		)");
 
 		// Act
@@ -628,18 +695,6 @@ TEST_CASE("DependencyMapper.map")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse("{}");
-
-		// Act
-		const auto& result = sut->map(json);
-
-		// Assert
-		REQUIRE(result.empty());
-	}
-
-	SECTION("returns an empty list when an empty json array is given")
-	{
-		// Arrange
-		const auto& json = nlohmann::json::parse("[]");
 
 		// Act
 		const auto& result = sut->map(json);

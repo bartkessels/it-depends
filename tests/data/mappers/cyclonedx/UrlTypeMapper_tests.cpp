@@ -2,7 +2,6 @@
 #include <memory>
 
 #include "data/mappers/cyclonedx/UrlTypeMapper.hpp"
-#include "domain/models/UrlType.hpp"
 
 using namespace id::data::mappers::cyclonedx;
 using namespace id::domain;
@@ -13,7 +12,7 @@ TEST_CASE("UrlTypeMapper.map")
 
 	SECTION("returns Website when a nullptr is given")
 	{
-		std::string type;
+		std::string const type;
 		const auto& expected = models::UrlType::Website;
 
 		// Act

@@ -2,7 +2,7 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-std::list<std::shared_ptr<models::License>> LicenseMapper::map(nlohmann::json json)
+auto LicenseMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::License>>
 {
 	auto licenses = std::list<std::shared_ptr<models::License>>();
 
@@ -16,7 +16,7 @@ std::list<std::shared_ptr<models::License>> LicenseMapper::map(nlohmann::json js
 	return licenses;
 }
 
-std::shared_ptr<models::License> LicenseMapper::mapLicense(nlohmann::json json)
+auto LicenseMapper::mapLicense(const nlohmann::json& json) -> std::shared_ptr<models::License>
 {
 	const auto& license = std::make_shared<models::License>();
 

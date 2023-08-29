@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "data/contracts/IFileReader.hpp"
 #include "data/contracts/IMapper.hpp"
 #include "data/contracts/IMapperBuilder.hpp"
@@ -17,8 +15,6 @@ namespace id::data::builders
 	class CycloneDXMapperBuilder: public contracts::IMapperBuilder
 	{
 		public:
-			~CycloneDXMapperBuilder() override = default;
-
-			std::shared_ptr<contracts::IMapper> build(std::shared_ptr<contracts::IFileReader> fileReader) override;
+			 auto build(const std::shared_ptr<contracts::IFileReader>& fileReader) -> std::shared_ptr<contracts::IMapper> override;
 	};
 }

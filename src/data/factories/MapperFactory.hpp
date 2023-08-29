@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 #include "data/contracts/IBuilderFactory.hpp"
 #include "data/contracts/IFileReaderFactory.hpp"
@@ -20,9 +21,8 @@ namespace id::data::factories
 				std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory,
 				std::shared_ptr<contracts::IBuilderFactory> builderFactory
 			);
-			~MapperFactory() override = default;
 
-			std::shared_ptr<contracts::IMapper> getMapper(domain::SbomType type) override;
+			auto getMapper(domain::SbomType type) -> std::shared_ptr<contracts::IMapper> override;
 
 		private:
 			std::shared_ptr<contracts::IFileReaderFactory> fileReaderFactory;

@@ -3,12 +3,12 @@
 using namespace id::data::mappers::cyclonedx;
 
 UrlMapper::UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper):
-	urlTypeMapper(urlTypeMapper)
+	urlTypeMapper(std::move(urlTypeMapper))
 {
 
 }
 
-std::list<std::shared_ptr<models::Url>> UrlMapper::map(nlohmann::json json)
+auto UrlMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Url>>
 {
 	auto urls = std::list<std::shared_ptr<models::Url>>();
 
@@ -22,7 +22,7 @@ std::list<std::shared_ptr<models::Url>> UrlMapper::map(nlohmann::json json)
 	return urls;
 }
 
-std::shared_ptr<models::Url> UrlMapper::mapUrl(nlohmann::json json)
+auto UrlMapper::mapUrl(const nlohmann::json& json) -> std::shared_ptr<models::Url>
 {
 	const auto& url = std::make_shared<models::Url>();
 

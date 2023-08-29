@@ -34,13 +34,13 @@ class BuilderFactoryMock: public IBuilderFactory
 class MapperBuilderMock: public IMapperBuilder
 {
 	public:
-		MAKE_MOCK1(build, std::shared_ptr<IMapper>(std::shared_ptr<IFileReader>), override);
+		MAKE_MOCK1(build, std::shared_ptr<IMapper>(const std::shared_ptr<IFileReader>&), override);
 };
 
 class MapperMock: public IMapper
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Dependency>>(std::string), override);
+		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Dependency>>(const std::string&), override);
 };
 
 TEST_CASE("MapperFactory.getMapper")

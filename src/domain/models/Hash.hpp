@@ -13,8 +13,6 @@ namespace id::domain::models
 	struct Hash
 	{
 		public:
-			~Hash() = default;
-
 			std::string algorithm;
 			std::string value;
 	};

@@ -4,7 +4,7 @@ using namespace id::data;
 using namespace id::data::builders;
 using namespace id::data::mappers::cyclonedx;
 
-std::shared_ptr<contracts::IMapper> CycloneDXMapperBuilder::build(std::shared_ptr<contracts::IFileReader> fileReader)
+auto CycloneDXMapperBuilder::build(const std::shared_ptr<contracts::IFileReader>& fileReader) -> std::shared_ptr<contracts::IMapper>
 {
 	const auto& hashMapper = std::make_shared<HashMapper>();
 	const auto& licenseMapper = std::make_shared<LicenseMapper>();

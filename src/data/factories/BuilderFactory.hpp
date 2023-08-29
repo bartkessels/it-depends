@@ -18,8 +18,6 @@ namespace id::data::factories
 	class BuilderFactory: public contracts::IBuilderFactory
 	{
 		public:
-			~BuilderFactory() override = default;
-
-			std::shared_ptr<contracts::IMapperBuilder> build(domain::SbomType type) override;
+			auto build(domain::SbomType type) -> std::shared_ptr<contracts::IMapperBuilder> override;
 	};
 }

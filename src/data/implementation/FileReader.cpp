@@ -3,7 +3,7 @@
 using namespace id::data::implementation;
 using namespace id::data;
 
-std::string FileReader::readFile(const std::string& filePath)
+auto FileReader::readFile(const std::string& filePath) -> std::string
 {
 	std::ifstream inFile;
 	inFile.open(filePath);
