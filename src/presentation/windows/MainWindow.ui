@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QSplitter" name="splitter_2">
+     <widget class="QSplitter" name="verticalSplitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -28,12 +28,12 @@
       </property>
       <widget class="QListView" name="globalDependencies"/>
       <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="dependencyLayout">
         <property name="spacing">
          <number>6</number>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="dependencyNameLayout">
           <item>
            <widget class="QLabel" name="name">
             <property name="sizePolicy">
@@ -68,7 +68,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QSplitter" name="splitter">
+         <widget class="QSplitter" name="dependencyBodySplitter">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -97,20 +97,10 @@
            <bool>false</bool>
           </property>
           <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="dependencyDetailsLayout">
             <property name="spacing">
              <number>6</number>
             </property>
-            <item>
-             <widget class="QWidget" name="urlsWidget" native="true">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QPlainTextEdit" name="description">
               <property name="undoRedoEnabled">
@@ -160,7 +150,6 @@
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpenCycloneDX">
    <property name="text">
     <string>Cyclone DX</string>
