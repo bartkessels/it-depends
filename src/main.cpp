@@ -1,11 +1,11 @@
 #include <QApplication>
+#include <QIcon>
 
 #include "data/factories/BuilderFactory.hpp"
 #include "data/factories/FileReaderFactory.hpp"
 #include "data/factories/MapperFactory.hpp"
 #include "presentation/windows/IMainWindowViewModel.hpp"
 #include "presentation/windows/MainWindowViewModel.hpp"
-#include "presentation/windows/IMainWindow.hpp"
 #include "presentation/windows/MainWindow.hpp"
 
 using namespace id;
@@ -14,9 +14,9 @@ using namespace id::presentation::windows;
 int main(int argc, char** args)
 {
     const auto& appName = "It Depends";
-    QIcon icon(":icons/main");
+    QIcon const icon(":icons/main");
 
-    QApplication app(argc, args);
+    QApplication const app(argc, args);
     QApplication::setWindowIcon(icon);
     QApplication::setApplicationDisplayName(appName);
     QApplication::setApplicationName(appName);
