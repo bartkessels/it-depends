@@ -26,5 +26,6 @@ MakeFile
 itdepends
 ItDepends
 .qt/
+*.profraw
 
 !**/res/*
