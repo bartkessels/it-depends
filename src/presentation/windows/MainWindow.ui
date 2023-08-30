@@ -96,7 +96,7 @@
           <property name="childrenCollapsible">
            <bool>false</bool>
           </property>
-          <widget class="QWidget" name="layoutWidget">
+          <widget class="QWidget" name="layoutWidgetDetails">
            <layout class="QVBoxLayout" name="dependencyDetailsLayout">
             <property name="spacing">
              <number>6</number>
