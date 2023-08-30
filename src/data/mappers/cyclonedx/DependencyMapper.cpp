@@ -39,11 +39,29 @@ auto DependencyMapper::mapDependency(const nlohmann::json& json) -> std::shared_
 	dependency->name = json.value(JSON_KEY_NAME, std::string());
 	dependency->version = json.value(JSON_KEY_VERSION, std::string());
 	dependency->description = json.value(JSON_KEY_DESCRIPTION, std::string());
+	dependency->author = mapAuthor(json);
 	dependency->hashes = hashMapper->map(json.value(JSON_KEY_HASHES, nlohmann::json()));
 	dependency->licenses = licenseMapper->map(json.value(JSON_KEY_LICENSES, nlohmann::json()));
 	dependency->urls = urlMapper->map(json.value(JSON_KEY_URLS, nlohmann::json()));
 
 	return dependency;
+}
+
+auto DependencyMapper::mapAuthor(const nlohmann::json& json) -> std::shared_ptr<models::Author>
+{
+	if (json.contains(JSON_KEY_PUBLISHER)) {
+		const auto& author = std::make_shared<models::Author>();
+
+		author->name = json.value(JSON_KEY_PUBLISHER, std::string());
+
+		/// Use empty values because this information is not available for CycloneDX
+		author->emailAddress = std::string();
+		author->website = std::string();
+
+		return author;
+	}
+
+	return {};
 }
 
 auto DependencyMapper::mapDependencies(const nlohmann::json& json, const std::string& dependencyId) -> std::list<std::shared_ptr<models::Dependency>>

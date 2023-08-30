@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 
+#include "domain/models/Author.hpp"
 #include "domain/models/Hash.hpp"
 #include "domain/models/License.hpp"
 #include "domain/models/Url.hpp"
@@ -24,6 +25,7 @@ namespace id::domain::models
 			std::string name;
 			std::string description;
 			std::string version;
+			std::shared_ptr<Author> author;
 			std::list<std::shared_ptr<Url>> urls;
 			std::list<std::shared_ptr<Hash>> hashes;
 			std::list<std::shared_ptr<License>> licenses;

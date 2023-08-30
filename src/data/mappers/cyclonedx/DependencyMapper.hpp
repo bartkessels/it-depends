@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "data/contracts/IJsonMapper.hpp"
+#include "domain/models/Author.hpp"
 #include "domain/models/Dependency.hpp"
 
 using namespace id::domain;
@@ -32,6 +33,7 @@ namespace id::data::mappers::cyclonedx
 			inline static const std::string JSON_KEY_COMPONENTS = "components";
 			inline static const std::string JSON_KEY_ID = "bom-ref";
 			inline static const std::string JSON_KEY_NAME = "name";
+			inline static const std::string JSON_KEY_PUBLISHER = "publisher";
 			inline static const std::string JSON_KEY_DESCRIPTION = "description";
 			inline static const std::string JSON_KEY_VERSION = "version";
 			inline static const std::string JSON_KEY_HASHES = "hashes";
@@ -46,6 +48,7 @@ namespace id::data::mappers::cyclonedx
 			std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>> urlMapper;
 
 			auto mapDependency(const nlohmann::json& json) -> std::shared_ptr<models::Dependency>;
+			auto mapAuthor(const nlohmann::json& json) -> std::shared_ptr<models::Author>;
 			auto buildDependency(const nlohmann::json& json, const std::string& id) -> std::shared_ptr<models::Dependency>;
 			auto mapDependencies(const nlohmann::json& json, const std::string& dependencyId) -> std::list<std::shared_ptr<models::Dependency>>;
 	};

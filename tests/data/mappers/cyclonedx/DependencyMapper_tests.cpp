@@ -316,6 +316,95 @@ TEST_CASE("DependencyMapper.map")
 		// Assert
 		REQUIRE(result.front()->description == expected);
 	}
+
+	SECTION("maps the name of the author to the publisher if it's available in the json object")
+	{
+		// Arrange
+		const auto& expected = "Bouncy Castle devs";
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+						"publisher": "Bouncy Castle devs",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "2.10.1",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->author->name == expected);
+		REQUIRE(result.front()->author->emailAddress == std::string());
+		REQUIRE(result.front()->author->website == std::string());
+	}
+
+	SECTION("maps the authoer to an empty object if it's not available in the json object")
+	{
+		// Arrange
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "2.10.1",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->author == nullptr);
+	}
+
 	SECTION("maps the version to an empty string when it's not available in the json object")
 	{
 		// Arrange
