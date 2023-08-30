@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 if (generate_coverage_report)
-    # Setup flags for code coverage
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fprofile-instr-generate -fcoverage-mapping")
-    set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fprofile-instr-generate -fcoverage-mapping")
+    # TODO: Setup flags for code coverage
+#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fprofile-instr-generate -fcoverage-mapping")
+#    set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fprofile-instr-generate -fcoverage-mapping")
 endif()
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/cyclonedx_sbom.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
