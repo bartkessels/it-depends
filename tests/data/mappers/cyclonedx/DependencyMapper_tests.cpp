@@ -631,7 +631,208 @@ TEST_CASE("DependencyMapper.map")
 		REQUIRE(result.front()->dependencies.empty());
 	}
 
-	// TODO: Test the mapping of dependencies
+	SECTION("maps the dependencies when a dependencies is available")
+	{
+		// Arrange
+		const auto& dependencyOne = "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar";
+		const auto& dependencyTwo = "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar";
+
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"
+					},
+					{
+						"type": "library",
+					    "bom-ref": "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+						"publisher": "Eclipse Foundation",
+					    "group": "com.sun.activation",
+						"name": "jakarta.activation",
+						"description": "${project.name}",
+						"version": "1.2.1",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "dc519b1f09bbaf9274ea5da358a00110"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "EDL 1.0",
+						  	"url": "http://www.eclipse.org/org/documents/edl-v10.php"
+					 	}}],
+					 	"purl": "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+						"externalReferences": [
+							{
+								"type": "issue-tracker",
+								"url": "https://github.com/eclipse-ee4j/jaf/issues"
+							}
+						]
+					},
+					{
+						"type": "library",
+					    "bom-ref": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar",
+					    "group": "com.fasterxml.jackson.core",
+						"name": "jackson-databind",
+						"description": "General data-binding functionality for Jackson: works on core streaming API",
+						"version": "2.10.1",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "5be002ede268ddc0a2ea1b9bc5baceb8"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"id": "Apache-2.0"
+					 	}}],
+					 	"purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar",
+						"externalReferences": [
+							{
+								"type": "website",
+								"url": "http://fasterxml.com"
+							}
+						]
+					}
+				],
+				"dependencies": [
+					{
+						"ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+						"dependsOn": [
+							"pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+							"pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar"
+						]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->dependencies.front()->id == dependencyOne);
+		REQUIRE(result.front()->dependencies.back()->id == dependencyTwo);
+	}
+
+	SECTION("maps transitive dependencies")
+	{
+		// Arrange
+		const auto& dependencyOne = "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar";
+		const auto& dependencyTwo = "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar";
+
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"version": "1.62",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar"
+					},
+					{
+						"type": "library",
+					    "bom-ref": "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+						"publisher": "Eclipse Foundation",
+					    "group": "com.sun.activation",
+						"name": "jakarta.activation",
+						"description": "${project.name}",
+						"version": "1.2.1",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "dc519b1f09bbaf9274ea5da358a00110"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "EDL 1.0",
+						  	"url": "http://www.eclipse.org/org/documents/edl-v10.php"
+					 	}}],
+					 	"purl": "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+						"externalReferences": [
+							{
+								"type": "issue-tracker",
+								"url": "https://github.com/eclipse-ee4j/jaf/issues"
+							}
+						]
+					},
+					{
+						"type": "library",
+					    "bom-ref": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar",
+					    "group": "com.fasterxml.jackson.core",
+						"name": "jackson-databind",
+						"description": "General data-binding functionality for Jackson: works on core streaming API",
+						"version": "2.10.1",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "5be002ede268ddc0a2ea1b9bc5baceb8"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"id": "Apache-2.0"
+					 	}}],
+					 	"purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar",
+						"externalReferences": [
+							{
+								"type": "website",
+								"url": "http://fasterxml.com"
+							}
+						]
+					}
+				],
+				"dependencies": [
+					{
+						"ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+						"dependsOn": [
+							"pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar"
+						]
+					},
+					{
+						"ref": "pkg:maven/com.sun.activation/jakarta.activation@1.2.1?type=jar",
+						"dependsOn": [
+							"pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.10.1?type=jar"
+						]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->dependencies.front()->id == dependencyOne);
+		REQUIRE(result.front()->dependencies.front()->dependencies.front()->id == dependencyTwo);
+	}
 
 	SECTION("returns an empty list when the dependency is an empty object")
 	{
