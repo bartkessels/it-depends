@@ -15,6 +15,7 @@ namespace id::presentation::states
 	struct ErrorState: public MainWindowState
 	{
 		public:
+			explicit ErrorState(std::string message): message(std::move(message)) {}
 			~ErrorState() override = default;
 
 			std::string message;

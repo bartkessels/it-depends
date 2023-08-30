@@ -7,7 +7,7 @@ FetchContent_Declare(
         json_library
 
         GIT_REPOSITORY https://github.com/nlohmann/json.git
-        GIT_TAG         v3.10.5
+        GIT_TAG         v3.11.2
 )
 FetchContent_MakeAvailable(json_library)
 
@@ -19,7 +19,7 @@ if (NOT packaging)
             mocking_library
 
             GIT_REPOSITORY  https://github.com/rollbear/trompeloeil.git
-            GIT_TAG         v42
+            GIT_TAG         v45
     )
     FetchContent_MakeAvailable(mocking_library)
 
@@ -29,7 +29,7 @@ if (NOT packaging)
             testing_library
 
             GIT_REPOSITORY  https://github.com/catchorg/Catch2.git
-            GIT_TAG         v2.13.9
+            GIT_TAG         v3.4.0
     )
     FetchContent_MakeAvailable(testing_library)
 

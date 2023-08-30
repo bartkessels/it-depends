@@ -10,13 +10,27 @@ if (use_installed_dependencies)
 endif()
 
 if (use_qt6)
-    find_package(Qt6 COMPONENTS Widgets REQUIRED)
+    find_package(Qt6 COMPONENTS Widgets Core REQUIRED)
 else()
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+    find_package(Qt5 COMPONENTS Widgets Core REQUIRED)
 endif()
 
 set(SOURCEFILES
         main.cpp
+
+        data/builders/CycloneDXMapperBuilder.cpp
+
+        data/factories/BuilderFactory.cpp
+        data/factories/FileReaderFactory.cpp
+        data/factories/MapperFactory.cpp
+        data/implementation/FileReader.cpp
+
+        data/mappers/cyclonedx/DependencyMapper.cpp
+        data/mappers/cyclonedx/HashMapper.cpp
+        data/mappers/cyclonedx/LicenseMapper.cpp
+        data/mappers/cyclonedx/UrlMapper.cpp
+        data/mappers/cyclonedx/UrlTypeMapper.cpp
+        data/mappers/CycloneDXMapper.cpp
 
         presentation/windows/MainWindow.cpp
         presentation/windows/MainWindowViewModel.cpp
@@ -36,9 +50,9 @@ install(TARGETS ${CMAKE_PROJECT_NAME}
 target_link_libraries(${CMAKE_PROJECT_NAME} nlohmann_json::nlohmann_json)
 
 if (use_qt6)
-    target_link_libraries(${CMAKE_PROJECT_NAME} Qt::Widgets)
+    target_link_libraries(${CMAKE_PROJECT_NAME} Qt::Widgets Qt::Core)
 else()
-    target_link_libraries(${CMAKE_PROJECT_NAME} Qt5::Widgets)
+    target_link_libraries(${CMAKE_PROJECT_NAME} Qt5::Widgets Qt5::Core)
 endif()
 
 if (packaging)

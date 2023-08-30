@@ -10,21 +10,18 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            generator: Ninja
             artifact_name: ItDepends_x64-Linux.tar.gz
             qt_arch: gcc_64
 
-          - os: macos-latest
-            generator: Ninja
+          - os: macos-13
             artifact_name: ItDepends_x64-MacOS.zip
             qt_arch: clang_64
 
           - os: windows-latest
-            generator: Ninja
             artifact_name: ItDepends_x64-Windows.zip
             qt_arch: win64_mingw
 
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     continue-on-error: true
     steps:
       - name: Checkout repository
@@ -36,7 +33,7 @@ jobs:
         if: contains(matrix.os, 'windows')
         uses: msys2/setup-msys2@v2
         with:
-          location: ${{env.msys}}
+          location: ${{ env.msys }}
           msystem: mingw64
           install: mingw-w64-x86_64-ninja
 
@@ -51,12 +48,12 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.6.0'
-          arch: '${{matrix.qt_arch}}'
+          version: '6.5.2'
+          arch: ${{ matrix.qt_arch }}
 
       - name: Create It Depends project
         run: |
-          cmake . -G "${{matrix.generator}}" -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
+          cmake . -G Ninja -Dpackaging=true -DCMAKE_CXX_FLAGS='-w'
 
       - name: Build It Depends
         run: ninja ItDepends
@@ -64,12 +61,12 @@ jobs:
       - name: Zip the Windows executable
         if: contains(matrix.os, 'windows')
         run: |
-          7z a -tzip ${{matrix.artifact_name}} ./bin/ItDepends.exe
+          7z a -tzip ${{ matrix.artifact_name }} ./bin/ItDepends.exe
 
       - name: Zip the MacOS bundle
         if: contains(matrix.os, 'macos')
         run: |
-          zip -rT ${{matrix.artifact_name}} ./bin/ItDepends.app >> /dev/null
+          zip -rT ${{ matrix.artifact_name }} ./bin/ItDepends.app >> /dev/null
 
       - name: Create or update Release with artifacts
         uses: ncipollo/release-action@v1.12.0

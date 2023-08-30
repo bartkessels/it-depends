@@ -12,8 +12,6 @@ namespace id::domain::models
 	struct Author
 	{
 		public:
-			~Author() = default;
-
 			std::string name;
 			std::string emailAddress;
 			std::string website;
