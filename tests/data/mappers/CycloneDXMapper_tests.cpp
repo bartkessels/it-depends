@@ -37,8 +37,8 @@
 //
 //		// Assert
 //	}
-////std::list<std::shared_ptr<models::Dependency>> map(nlohmann::json json);
+////std::vector<std::shared_ptr<models::Dependency>> map(nlohmann::json json);
 ////std::shared_ptr<models::Dependency> mapDependency(nlohmann::json json);
-////std::list<std::shared_ptr<models::Url>> mapUrls(nlohmann::json json);
+////std::vector<std::shared_ptr<models::Url>> mapUrls(nlohmann::json json);
 ////std::shared_ptr<models::Url> mapUrl(nlohmann::json json);
 //}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <list>
+#include <vector>
 #include <string>
 #include <nlohmann/json.hpp>
 #include <utility>
@@ -22,13 +22,13 @@ namespace id::data::mappers::cyclonedx
 	 * url have a value. Otherwise there's no need to parse the
 	 * json object because it cannot be properly displayed.
 	 */
-	class UrlMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>
+	class UrlMapper: public contracts::IJsonMapper<std::vector<std::shared_ptr<models::Url>>>
 	{
 		public:
 			virtual ~UrlMapper() = default;
 			explicit UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper);
 
-			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Url>> override;
+			auto map(const nlohmann::json& json) -> std::vector<std::shared_ptr<models::Url>> override;
 
 		private:
 			inline static const std::string JSON_KEY_URL_TYPE = "type";

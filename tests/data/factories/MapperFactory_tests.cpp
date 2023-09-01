@@ -40,7 +40,7 @@ class MapperBuilderMock: public IMapperBuilder
 class MapperMock: public IMapper
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Dependency>>(const std::string&), override);
+		MAKE_MOCK1(map, std::vector<std::shared_ptr<models::Dependency>>(const std::string&), override);
 };
 
 TEST_CASE("MapperFactory.getMapper")

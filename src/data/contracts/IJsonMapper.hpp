@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <list>
 #include <nlohmann/json.hpp>
 
 namespace id::data::contracts

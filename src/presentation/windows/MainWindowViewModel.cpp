@@ -12,25 +12,25 @@ MainWindowViewModel::MainWindowViewModel(
 	window->updateState(std::make_shared<states::EmptyState>());
 }
 
+MainWindowViewModel::~MainWindowViewModel()
+{
+	loadingThread.detach();
+}
+
 void MainWindowViewModel::loadSBOM(domain::SbomType type, const std::string& fileLocation)
 {
 	// Set state to loading
 	window->updateState(std::make_shared<states::LoadingState>());
 
 	// Execute background task
-	std::async(std::launch::async, [this, type, fileLocation]() {
+	loadingThread = std::thread([this, type, fileLocation]() {
 		try {
-			const auto& mapper = this->mapperFactory->getMapper(type);
+			const auto& mapper = mapperFactory->getMapper(type);
 			const auto& dependencies = mapper->map(fileLocation);
-			const auto& state = std::make_shared<states::SuccessState>(dependencies);
 
-			window->updateState(state);
+			window->updateState(std::make_shared<states::SuccessState>(dependencies));
 		} catch (std::exception& e) {
-			const auto& state = std::make_shared<states::ErrorState>(e.what());
-			window->updateState(state);
+			window->updateState(std::make_shared<states::ErrorState>(e.what()));
 		}
-
-	}).get();
-
-	// Update state accordingly
+	});
 }

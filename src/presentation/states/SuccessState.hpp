@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <memory>
 
 #include "domain/models/Dependency.hpp"
@@ -13,10 +13,10 @@ namespace id::presentation::states
 	struct SuccessState: public MainWindowState
 	{
 		public:
-			explicit SuccessState(std::list<std::shared_ptr<models::Dependency>> dependencies):
+			explicit SuccessState(std::vector<std::shared_ptr<domain::models::Dependency>> dependencies):
 				dependencies(dependencies) {}
 			~SuccessState() override = default;
 
-			std::list<std::shared_ptr<models::Dependency>> dependencies;
+			std::vector<std::shared_ptr<domain::models::Dependency>> dependencies;
 	};
 }

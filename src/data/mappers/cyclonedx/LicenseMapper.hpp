@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <list>
+#include <vector>
 #include <string>
 #include <nlohmann/json.hpp>
 
@@ -16,10 +16,10 @@ namespace id::data::mappers::cyclonedx
 	 * Map a json object with licenses to a generic list of Licenses.
 	 *
 	 */
-	class LicenseMapper: public contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>
+	class LicenseMapper: public contracts::IJsonMapper<std::vector<std::shared_ptr<models::License>>>
 	{
 		public:
-			auto map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::License>> override;
+			auto map(const nlohmann::json& json) -> std::vector<std::shared_ptr<models::License>> override;
 
 		private:
 			inline static const std::string JSON_KEY_LICENSE = "license";

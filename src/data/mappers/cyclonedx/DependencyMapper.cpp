@@ -5,9 +5,9 @@ using namespace id::data::mappers::cyclonedx;
 using namespace id::domain;
 
 DependencyMapper::DependencyMapper(
-	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>> hashMapper,
-	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>> licenseMapper,
-	std::shared_ptr<contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>> urlMapper
+	std::shared_ptr<contracts::IJsonMapper<std::vector<std::shared_ptr<models::Hash>>>> hashMapper,
+	std::shared_ptr<contracts::IJsonMapper<std::vector<std::shared_ptr<models::License>>>> licenseMapper,
+	std::shared_ptr<contracts::IJsonMapper<std::vector<std::shared_ptr<models::Url>>>> urlMapper
 ):
 	hashMapper(std::move(hashMapper)),
 	licenseMapper(std::move(licenseMapper)),
@@ -16,17 +16,18 @@ DependencyMapper::DependencyMapper(
 
 }
 
-auto DependencyMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Dependency>>
+auto DependencyMapper::map(const nlohmann::json& json) -> DependencyPtrList
 {
-	auto dependencies = std::list<std::shared_ptr<models::Dependency>>();
+	auto dependencies = DependencyPtrList();
 
 	for (const auto& object: json.value(JSON_KEY_COMPONENTS, nlohmann::json())) {
 		if (!object.empty()) {
 			const auto& dependency = mapDependency(object);
-			dependency->dependencies = mapDependencies(json, dependency->id);
 			dependencies.emplace_back(dependency);
 		}
 	}
+
+	this->mapTransitiveDependencies(json, dependencies);
 
 	return dependencies;
 }
@@ -36,6 +37,7 @@ auto DependencyMapper::mapDependency(const nlohmann::json& json) -> std::shared_
 	const auto& dependency = std::make_shared<models::Dependency>();
 
 	dependency->id = json.value(JSON_KEY_ID, std::string());
+	dependency->type = mapType(json.value(JSON_KEY_TYPE, std::string()));
 	dependency->name = json.value(JSON_KEY_NAME, std::string());
 	dependency->version = json.value(JSON_KEY_VERSION, std::string());
 	dependency->description = json.value(JSON_KEY_DESCRIPTION, std::string());
@@ -64,38 +66,41 @@ auto DependencyMapper::mapAuthor(const nlohmann::json& json) -> std::shared_ptr<
 	return {};
 }
 
-auto DependencyMapper::mapDependencies(const nlohmann::json& json, const std::string& dependencyId) -> std::list<std::shared_ptr<models::Dependency>>
+auto DependencyMapper::mapType(const std::string& type) -> models::Type
 {
-	auto dependencies = std::list<std::shared_ptr<models::Dependency>>();
-	const auto& allJsonDependencies = json.value(JSON_KEY_DEPENDENCIES, nlohmann::json());
+	if (type == "library") {
+		return models::Type::Library;
+	} else if (type == "application") {
+		return models::Type::Application;
+	}
 
-	for (const auto& jsonDependency : allJsonDependencies) {
+	return models::Type::Unknown;
+}
+
+auto DependencyMapper::findDependency(const id::data::mappers::cyclonedx::DependencyPtrList &dependencies, const std::string& id) -> std::shared_ptr<models::Dependency>
+{
+	return *std::find_if(dependencies.begin(), dependencies.end(), [&id](const std::shared_ptr<models::Dependency>& obj) {
+		return obj->id == id;
+	});
+}
+
+auto DependencyMapper::mapTransitiveDependencies(const nlohmann::json& json, const DependencyPtrList& dependencies) -> DependencyPtrList
+{
+	const auto& jsonDependencies = json.value(JSON_KEY_DEPENDENCIES, nlohmann::json());
+
+	for (const auto& jsonDependency : jsonDependencies) {
 		const auto& currentDependencyId = jsonDependency.value(JSON_KEY_DEPENDENCY_ID, std::string());
 
-		if (currentDependencyId == dependencyId) {
-			const auto& dependsOnArray = jsonDependency.value(JSON_KEY_DEPENDENCY_DEPENDS_ON, nlohmann::json());
-			for (const auto& dependsOnRef: dependsOnArray) {
-				const auto& dependency = buildDependency(json, dependsOnRef.get<std::string>());
-				dependency->dependencies = mapDependencies(json, dependency->id);
-				dependencies.emplace_back(dependency);
+		for (const auto& dependency: dependencies) {
+			if (dependency->id == currentDependencyId) {
+				const auto& refs = jsonDependency.value(JSON_KEY_DEPENDENCY_DEPENDS_ON, nlohmann::json());
+
+				for (const auto& ref: refs) {
+					dependency->dependencies.emplace_back(findDependency(dependencies, ref.get<std::string>()));
+				}
 			}
 		}
 	}
 
 	return dependencies;
-}
-
-auto DependencyMapper::buildDependency(const nlohmann::json& json, const std::string& id) -> std::shared_ptr<models::Dependency>
-{
-	const auto& dependencies = json.value(JSON_KEY_COMPONENTS, nlohmann::json());
-
-	for (const auto& object: dependencies) {
-		const auto& dependencyId = object.value(JSON_KEY_ID, std::string());
-
-		if (!object.empty() && dependencyId == id) {
-			return mapDependency(object);
-		}
-	}
-
-	return {};
 }
