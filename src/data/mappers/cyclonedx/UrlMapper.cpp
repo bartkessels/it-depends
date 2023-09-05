@@ -8,9 +8,9 @@ UrlMapper::UrlMapper(std::shared_ptr<UrlTypeMapper> urlTypeMapper):
 
 }
 
-auto UrlMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::Url>>
+auto UrlMapper::map(const nlohmann::json& json) -> std::vector<std::shared_ptr<models::Url>>
 {
-	auto urls = std::list<std::shared_ptr<models::Url>>();
+	auto urls = std::vector<std::shared_ptr<models::Url>>();
 
 	for (const auto& object: json) {
 		if (!object.empty() && object.contains(JSON_KEY_URL_TYPE) && object.contains(JSON_KEY_URL)) {

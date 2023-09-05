@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/icons">
         <file alias="main">icons/main.svg</file>
+        <file alias="type-app">icons/app.svg</file>
+        <file alias="type-lib">icons/lib.svg</file>
+        <file alias="type-unknown">icons/unknown.svg</file>
     </qresource>
 </RCC>

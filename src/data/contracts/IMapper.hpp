@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include <string>
+#include <vector>
 
 #include "domain/models/Dependency.hpp"
 
@@ -12,6 +12,6 @@ namespace id::data::contracts
 	struct IMapper
 	{
 		public:
-			virtual auto map(const std::string& filePath) -> std::list<std::shared_ptr<models::Dependency>> = 0;
+			virtual auto map(const std::string& filePath) -> std::vector<std::shared_ptr<models::Dependency>> = 0;
 	};
 }

@@ -12,7 +12,7 @@ namespace id::presentation::windows
     	public:
         	virtual ~IMainWindow() = default;
 
-        	virtual void setViewModel(std::shared_ptr<IMainWindowViewModel> viewModel) = 0;
-        	virtual void updateState(std::shared_ptr<states::MainWindowState> newState) = 0;
+        	virtual void setViewModel(const std::shared_ptr<IMainWindowViewModel>& viewModel) = 0;
+        	virtual void updateState(const std::shared_ptr<states::MainWindowState>& newState) = 0;
     };
 }

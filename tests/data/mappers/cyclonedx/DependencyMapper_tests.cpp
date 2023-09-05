@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <trompeloeil.hpp>
-#include <list>
+#include <vector>
 #include <memory>
 #include <nlohmann/json.hpp>
 
@@ -15,22 +15,22 @@ using namespace id::data;
 using namespace id::data::mappers::cyclonedx;
 using namespace id::domain;
 
-class HashMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Hash>>>
+class HashMapperMock: public contracts::IJsonMapper<std::vector<std::shared_ptr<models::Hash>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Hash>>(const nlohmann::json&), override);
+		MAKE_MOCK1(map, std::vector<std::shared_ptr<models::Hash>>(const nlohmann::json&), override);
 };
 
-class LicenseMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::License>>>
+class LicenseMapperMock: public contracts::IJsonMapper<std::vector<std::shared_ptr<models::License>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::License>>(const nlohmann::json&), override);
+		MAKE_MOCK1(map, std::vector<std::shared_ptr<models::License>>(const nlohmann::json&), override);
 };
 
-class UrlMapperMock: public contracts::IJsonMapper<std::list<std::shared_ptr<models::Url>>>
+class UrlMapperMock: public contracts::IJsonMapper<std::vector<std::shared_ptr<models::Url>>>
 {
 	public:
-		MAKE_MOCK1(map, std::list<std::shared_ptr<models::Url>>(const nlohmann::json&), override);
+		MAKE_MOCK1(map, std::vector<std::shared_ptr<models::Url>>(const nlohmann::json&), override);
 };
 
 TEST_CASE("DependencyMapper.map")
@@ -41,9 +41,9 @@ TEST_CASE("DependencyMapper.map")
 
 	const auto& sut = std::make_shared<DependencyMapper>(hashMapperMock, licenseMapperMock, urlMapperMock);
 
-	ALLOW_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Hash>>());
-	ALLOW_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::License>>());
-	ALLOW_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Url>>());
+	ALLOW_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Hash>>());
+	ALLOW_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::License>>());
+	ALLOW_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Url>>());
 
 	SECTION("maps the values for a single dependency")
 	{
@@ -275,6 +275,177 @@ TEST_CASE("DependencyMapper.map")
 		REQUIRE(result.front()->name == expected);
 	}
 
+	SECTION("maps the type to Library when the type is library")
+	{
+		// Arrange
+		const auto& expected = models::Type::Library;
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "library",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+					 	"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->type == expected);
+	}
+
+	SECTION("maps the type to Application when the type is application")
+	{
+		// Arrange
+		const auto& expected = models::Type::Application;
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "application",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+					 	"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->type == expected);
+	}
+
+	SECTION("maps the type to Unknown when the type is something that isn't supported")
+	{
+		// Arrange
+		const auto& expected = models::Type::Unknown;
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+						"type": "this-isnt-a-supported-type",
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+					 	"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->type == expected);
+	}
+
+	SECTION("maps the type to Unknown when the type isn't available in the json object")
+	{
+		// Arrange
+		const auto& expected = models::Type::Unknown;
+		const auto& json = nlohmann::json::parse(R"(
+			{
+				"components": [
+				    {
+					    "bom-ref": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					    "group": "org.bouncycastle",
+						"name": "bcprov-jdk15on",
+						"version": "1.62",
+					 	"description": "The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms. This jar contains JCE provider and lightweight API for the Bouncy Castle Cryptography APIs for JDK 1.5 to JDK 1.8.",
+						"hashes": [
+							{
+								"alg": "MD5",
+								"content": "01b1a8cff910fdb9328cef5c437ff2f9"
+						  	}
+					 	],
+					 	"licenses": [{"license": {
+							"name": "Bouncy Castle Licence",
+						  	"url": "http://www.bouncycastle.org/licence.html"
+					 	}}],
+					 	"purl": "pkg:maven/org.bouncycastle/bcprov-jdk15on@1.62?type=jar",
+					 	"externalReferences": [
+							{
+								"type": "issue-tracker",
+							  	"url": "https://github.com/bcgit/bc-java/issues"
+						  	}
+					 	]
+					}
+				]
+			}
+		)");
+
+		// Act
+		const auto& result = sut->map(json);
+
+		// Assert
+		REQUIRE(result.front()->type == expected);
+	}
+
 	SECTION("maps the description to an empty string when it's not available in the json object")
 	{
 		// Arrange
@@ -363,7 +534,7 @@ TEST_CASE("DependencyMapper.map")
 		REQUIRE(result.front()->author->website == std::string());
 	}
 
-	SECTION("maps the authoer to an empty object if it's not available in the json object")
+	SECTION("maps the author to an empty object if it's not available in the json object")
 	{
 		// Arrange
 		const auto& json = nlohmann::json::parse(R"(
@@ -483,7 +654,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Hash>>());
+		REQUIRE_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Hash>>());
 
 		// Act
 		sut->map(json);
@@ -519,7 +690,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Hash>>());
+		REQUIRE_CALL(*hashMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Hash>>());
 
 		// Act
 		sut->map(json);
@@ -562,7 +733,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::License>>());
+		REQUIRE_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::License>>());
 
 		// Act
 		sut->map(json);
@@ -600,7 +771,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::License>>());
+		REQUIRE_CALL(*licenseMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::License>>());
 
 		// Act
 		sut->map(json);
@@ -642,7 +813,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Url>>());
+		REQUIRE_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Url>>());
 
 		// Act
 		sut->map(json);
@@ -678,7 +849,7 @@ TEST_CASE("DependencyMapper.map")
 		)");
 
 		// Assert
-		REQUIRE_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::list<std::shared_ptr<models::Url>>());
+		REQUIRE_CALL(*urlMapperMock, map(trompeloeil::_)).RETURN(std::vector<std::shared_ptr<models::Url>>());
 
 		// Act
 		sut->map(json);

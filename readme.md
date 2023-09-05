@@ -40,6 +40,8 @@ With this application you can visualize all the dependencies based on the genera
 
 _It Depends_ main focus is allowing a developer to get a grip on the dependencies and transative dependencies of their system. _It Depends_ supports different kinds of SBOM standards. Based on these standards you can load the generated SBOM file into _It Depends_ and it will visualize all the dependencies for you.
 
+![It Depends screenshot](./resources/images/ItDepends.png)
+
 ## 1.1 Supported SBOM standards
 
 _It Depends_ supports the following SBOM standards

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <list>
+#include <vector>
 #include <string>
 #include <nlohmann/json.hpp>
 
@@ -25,7 +25,7 @@ namespace id::data::mappers
 				  std::shared_ptr<cyclonedx::DependencyMapper> dependencyMapper
 			 );
 
-			auto map(const std::string& filePath) -> std::list<std::shared_ptr<models::Dependency>> override;
+			auto map(const std::string& filePath) -> std::vector<std::shared_ptr<models::Dependency>> override;
 
 		private:
 			std::shared_ptr<contracts::IFileReader> fileReader;

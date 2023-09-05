@@ -1,22 +1,29 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <memory>
 
-#include "domain/models/Dependency.hpp"
+#include "presentation/models/DependencyUiModel.hpp"
 #include "presentation/states/MainWindowState.hpp"
 
 using namespace id::domain;
 
 namespace id::presentation::states
 {
+	/**
+ 	 * Success state for the MainWindow.
+	 *
+	 * This states represents the successful reading of the SBOM file and
+	 * mapping the dependencies into a generic dependency list.
+	 *
+	 */
 	struct SuccessState: public MainWindowState
 	{
 		public:
-			explicit SuccessState(std::list<std::shared_ptr<models::Dependency>> dependencies):
+			explicit SuccessState(const std::vector<std::shared_ptr<models::DependencyUiModel>>& dependencies):
 				dependencies(dependencies) {}
 			~SuccessState() override = default;
 
-			std::list<std::shared_ptr<models::Dependency>> dependencies;
+			std::vector<std::shared_ptr<models::DependencyUiModel>> dependencies;
 	};
 }

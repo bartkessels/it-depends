@@ -2,9 +2,9 @@
 
 using namespace id::data::mappers::cyclonedx;
 
-auto LicenseMapper::map(const nlohmann::json& json) -> std::list<std::shared_ptr<models::License>>
+auto LicenseMapper::map(const nlohmann::json& json) -> std::vector<std::shared_ptr<models::License>>
 {
-	auto licenses = std::list<std::shared_ptr<models::License>>();
+	auto licenses = std::vector<std::shared_ptr<models::License>>();
 
 	for (const auto& object: json) {
 		if (object.contains(JSON_KEY_LICENSE) && !object.value(JSON_KEY_LICENSE, nlohmann::json()).empty()) {

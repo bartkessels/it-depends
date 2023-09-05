@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
-#include <list>
 #include <memory>
+#include <vector>
 
 #include "domain/models/Author.hpp"
 #include "domain/models/Hash.hpp"
 #include "domain/models/License.hpp"
+#include "domain/models/Type.hpp"
 #include "domain/models/Url.hpp"
 
 namespace id::domain::models
@@ -22,13 +23,14 @@ namespace id::domain::models
 	{
 		public:
 			std::string id;
+			Type type;
 			std::string name;
 			std::string description;
 			std::string version;
 			std::shared_ptr<Author> author;
-			std::list<std::shared_ptr<Url>> urls;
-			std::list<std::shared_ptr<Hash>> hashes;
-			std::list<std::shared_ptr<License>> licenses;
-			std::list<std::shared_ptr<Dependency>> dependencies;
+			std::vector<std::shared_ptr<Url>> urls;
+			std::vector<std::shared_ptr<Hash>> hashes;
+			std::vector<std::shared_ptr<License>> licenses;
+			std::vector<std::shared_ptr<Dependency>> dependencies;
 	};
 }

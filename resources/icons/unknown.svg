@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="845.533" id="Filter" width="845.741" x="87.9299" y="93.4127">
+<feDropShadow dx="-1.8366e-05" dy="5" flood-color="#000000" flood-opacity="0.333" in="SourceGraphic" result="Shadow" stdDeviation="5"/>
+</filter>
+<filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="466.797" id="Filter_2" width="363.965" x="349.207" y="295.629">
+<feDropShadow dx="-1.8366e-05" dy="5" flood-color="#000000" flood-opacity="0.333" in="SourceGraphic" result="Shadow" stdDeviation="5"/>
+</filter>
+</defs>
+<g id="Layer-1" vectornator:layerName="Layer 1">
+<path d="M100.43 253.779C100.43 169.353 168.888 100.913 253.335 100.913L768.266 100.913C852.713 100.913 921.171 169.353 921.171 253.779L921.171 768.58C921.171 853.005 852.713 921.446 768.266 921.446L253.335 921.446C168.888 921.446 100.43 853.005 100.43 768.58L100.43 253.779Z" fill="#8b8b8b" fill-rule="nonzero" filter="url(#Filter)" stroke="none" vectornator:layerName="Rectangle 1" vectornator:shadowAngle="1.5708" vectornator:shadowColor="#000000" vectornator:shadowOffset="5" vectornator:shadowOpacity="0.333" vectornator:shadowRadius="10"/>
+<path d="M420.887 303.129L420.887 569.145C420.887 600.395 426.746 626.371 438.465 647.074C455.848 678.324 485.145 693.949 526.355 693.949C575.77 693.949 609.363 677.055 627.137 643.266C636.707 624.906 641.492 600.199 641.492 569.145L641.492 303.129L700.672 303.129L700.672 544.828C700.672 597.758 693.543 638.48 679.285 666.996C653.113 718.949 603.699 744.926 531.043 744.926C458.387 744.926 409.07 718.949 383.094 666.996C368.836 638.48 361.707 597.758 361.707 544.828L361.707 303.129L420.887 303.129Z" fill="#ffffff" filter="url(#Filter_2)" stroke="none" vectornator:layerName="Text 1" vectornator:shadowAngle="1.5708" vectornator:shadowColor="#000000" vectornator:shadowOffset="5" vectornator:shadowOpacity="0.333" vectornator:shadowRadius="10"/>
+</g>
+</svg>

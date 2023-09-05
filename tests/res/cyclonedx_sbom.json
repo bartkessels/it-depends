@@ -170,7 +170,7 @@
       ]
     },
     {
-      "type": "library",
+      "type": "application",
       "bom-ref": "pkg:maven/org.jboss.logging/jboss-logging@3.4.1.Final?type=jar",
       "publisher": "JBoss by Red Hat",
       "group": "org.jboss.logging",
@@ -1759,7 +1759,7 @@
       ]
     },
     {
-      "type": "library",
+      "type": "unkown",
       "bom-ref": "pkg:maven/com.google.j2objc/j2objc-annotations@1.1?type=jar",
       "group": "com.google.j2objc",
       "name": "j2objc-annotations",
