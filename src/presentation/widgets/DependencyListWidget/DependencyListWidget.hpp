@@ -8,7 +8,7 @@
 #include <QIcon>
 #include <QPixmap>
 
-#include "presentation/models/DependencyListItemUiModel.hpp"
+#include "presentation/models/DependencyUiModel.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class DependencyListWidget; }
@@ -19,7 +19,7 @@ namespace id::presentation::widgets
 	class DependencyListWidget: public QWidget
 	{
 		public:
-			explicit DependencyListWidget(const std::shared_ptr<models::DependencyListItemUiModel>& dependency, QWidget* parent = nullptr);
+			explicit DependencyListWidget(const std::shared_ptr<models::DependencyUiModel>& dependency, QWidget* parent = nullptr);
 			~DependencyListWidget() override;
 
 		private:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 namespace id::presentation::contracts
 {
@@ -17,6 +18,6 @@ namespace id::presentation::contracts
 	struct IUiMapper
 	{
 		public:
-			virtual auto map(const std::shared_ptr<Model>& model) -> std::shared_ptr<UiModel> = 0;
+			virtual auto map(const std::vector<std::shared_ptr<Model>>& models) -> std::vector<std::shared_ptr<UiModel>> = 0;
 	};
 }

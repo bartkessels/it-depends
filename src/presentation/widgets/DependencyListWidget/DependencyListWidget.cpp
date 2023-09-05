@@ -3,7 +3,7 @@
 
 using namespace id::presentation::widgets;
 
-DependencyListWidget::DependencyListWidget(const std::shared_ptr<models::DependencyListItemUiModel>& dependency, QWidget* parent):
+DependencyListWidget::DependencyListWidget(const std::shared_ptr<models::DependencyUiModel>& dependency, QWidget* parent):
 	QWidget(parent),
 	ui(new Ui::DependencyListWidget())
 {

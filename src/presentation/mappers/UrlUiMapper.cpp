@@ -13,6 +13,18 @@ auto UrlUiMapper::map(const std::shared_ptr<domain::models::Url>& model) -> std:
 	return uiModel;
 }
 
+auto UrlUiMapper::map(const std::vector<std::shared_ptr<domain::models::Url>>& models) -> std::vector<std::shared_ptr<models::UrlUiModel>>
+{
+	auto uiModels = std::vector<std::shared_ptr<models::UrlUiModel>>();
+
+	for (const auto& model: models) {
+		const auto& uiModel = map(model);
+		uiModels.emplace_back(uiModel);
+	}
+
+	return uiModels;
+}
+
 auto UrlUiMapper::getUrlName(const std::shared_ptr<domain::models::Url>& url) -> QString
 {
 	switch (url->type) {
@@ -21,8 +33,8 @@ auto UrlUiMapper::getUrlName(const std::shared_ptr<domain::models::Url>& url) ->
 		case domain::models::UrlType::Website:
 			return "Website";
 		case domain::models::UrlType::VCS:
-			return "Version control system";
+			return "Repository";
 		default:
-			throw;
+			throw "Unsupported URL type";
 	}
 }

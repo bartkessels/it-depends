@@ -7,12 +7,10 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QString>
-#include <QtreeWidgetItem>
+#include <QIcon>
 
-#include "domain/models/Dependency.hpp"
-#include "presentation/contracts/IUiMapper.hpp"
-#include "presentation/models/DependencyListItemUiModel.hpp"
-#include "presentation/models/UrlUiModel.hpp"
+#include "domain/SbomType.hpp"
+#include "presentation/models/DependencyUiModel.hpp"
 #include "presentation/states/EmptyState.hpp"
 #include "presentation/states/ErrorState.hpp"
 #include "presentation/states/LoadingState.hpp"
@@ -33,24 +31,20 @@ namespace id::presentation::windows
 		Q_OBJECT
 
 		public:
-			explicit MainWindow(
-				const std::shared_ptr<contracts::IUiMapper<domain::models::Dependency, models::DependencyListItemUiModel>>& dependencyListItemUiMapper,
-				const std::shared_ptr<contracts::IUiMapper<domain::models::Url, models::UrlUiModel>>& urlUiMapper,
-				QWidget* parent = nullptr
-			);
+			explicit MainWindow(QWidget* parent = nullptr);
 			~MainWindow() override;
 
-			void setViewModel(std::shared_ptr<IMainWindowViewModel> viewModel) override;
-			void updateState(std::shared_ptr<states::MainWindowState> state) override;
+			void setViewModel(const std::shared_ptr<IMainWindowViewModel>& viewModel) override;
+			void updateState(const std::shared_ptr<states::MainWindowState>& state) override;
 
 		private:
+			static inline const int ICON_SIZE = 50;
+
 			Ui::MainWindow* ui;
 			std::shared_ptr<IMainWindowViewModel> viewModel;
-			std::shared_ptr<contracts::IUiMapper<domain::models::Dependency, models::DependencyListItemUiModel>> dependencyListItemUiMapper;
-			std::shared_ptr<contracts::IUiMapper<domain::models::Url, models::UrlUiModel>> urlUiMapper;
 
-			void displayDependency(std::shared_ptr<domain::models::Dependency> dependency);
-			void loadDependenciesIntoList(std::vector<std::shared_ptr<domain::models::Dependency>> dependencies, QListWidget* listWidget);
+			void displayDependency(const std::shared_ptr<models::DependencyUiModel>& dependency);
+			void loadDependenciesIntoList(const std::vector<std::shared_ptr<models::DependencyUiModel>>& dependencies, QListWidget* listWidget);
 			auto openFile() -> std::string;
 			void openCycloneDXFile();
 
@@ -60,6 +54,7 @@ namespace id::presentation::windows
 		private slots:
 			void handleStateChange(std::shared_ptr<states::MainWindowState> state);
 			void displayDependencyDetails(QListWidgetItem* item);
-			void openUrl(QListWidgetItem* item);
+			static void openUrl(QListWidgetItem* item);
+			void filterList(const QString& searchQuery);
 	};
 }

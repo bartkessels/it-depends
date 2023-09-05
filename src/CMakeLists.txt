@@ -32,7 +32,7 @@ set(SOURCEFILES
         data/mappers/cyclonedx/UrlTypeMapper.cpp
         data/mappers/CycloneDXMapper.cpp
 
-        presentation/mappers/DependencyListItemUiMapper.cpp
+        presentation/mappers/DependencyUiMapper.cpp
         presentation/mappers/UrlUiMapper.cpp
         presentation/widgets/DependencyListWidget/DependencyListWidget.cpp
         presentation/windows/MainWindow.cpp
