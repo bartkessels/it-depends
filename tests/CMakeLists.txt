@@ -45,9 +45,8 @@ set(TESTFILES
     data/mappers/cyclonedx/LicenseMapper_tests.cpp
     data/mappers/cyclonedx/UrlMapper_tests.cpp
     data/mappers/cyclonedx/UrlTypeMapper_tests.cpp
-    data/mappers/CycloneDXMapper_tests.cpp
 
-    presentation/mappers/DependencyUiMapper_tests.cpp
+        presentation/mappers/DependencyUiMapper_tests.cpp
     presentation/mappers/UrlUiMapper_tests.cpp
     presentation/windows/MainWindowViewModel_tests.cpp
 )
